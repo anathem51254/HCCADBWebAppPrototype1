@@ -159,13 +159,26 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\CommitteeController.cs" />
+    <Compile Include="Controllers\CommitteeModelController.cs" />
+    <Compile Include="Controllers\ConsumerRepModelController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="DAL\HCCADatabaseContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201403300830559_InitialCreate.cs" />
+    <Compile Include="Migrations\201403300830559_InitialCreate.Designer.cs">
+      <DependentUpon>201403300830559_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommitteeModel.cs" />
+    <Compile Include="Models\CommitteeModel_CommitteeAreaOfHealthModel.cs" />
+    <Compile Include="Models\CommitteeAreaOfHealthModel.cs" />
+    <Compile Include="Models\ComsumerRepCommitteeHistoryModel.cs" />
+    <Compile Include="Models\ConsumerRepAreaOfInterestModel.cs" />
+    <Compile Include="Models\ConsumerRepModel_ConsumerRepAreaOfInterestModel.cs" />
+    <Compile Include="Models\ConsumerRepModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -216,11 +229,16 @@
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Committee\Create.cshtml" />
-    <Content Include="Views\Committee\Delete.cshtml" />
-    <Content Include="Views\Committee\Details.cshtml" />
-    <Content Include="Views\Committee\Edit.cshtml" />
-    <Content Include="Views\Committee\Index.cshtml" />
+    <Content Include="Views\ConsumerRepModel\Create.cshtml" />
+    <Content Include="Views\ConsumerRepModel\Delete.cshtml" />
+    <Content Include="Views\ConsumerRepModel\Details.cshtml" />
+    <Content Include="Views\ConsumerRepModel\Edit.cshtml" />
+    <Content Include="Views\ConsumerRepModel\Index.cshtml" />
+    <Content Include="Views\CommitteeModel\Create.cshtml" />
+    <Content Include="Views\CommitteeModel\Delete.cshtml" />
+    <Content Include="Views\CommitteeModel\Details.cshtml" />
+    <Content Include="Views\CommitteeModel\Edit.cshtml" />
+    <Content Include="Views\CommitteeModel\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -231,6 +249,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201403300830559_InitialCreate.resx">
+      <DependentUpon>201403300830559_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

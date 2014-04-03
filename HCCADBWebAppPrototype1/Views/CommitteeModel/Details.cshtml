@@ -19,24 +19,16 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.HealthArea)
+            @Html.DisplayNameFor(model => model.CurrentStatus)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.HealthArea)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Status)
+            @Html.DisplayFor(model => model.CurrentStatus)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.CommitteeId }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CommitteeModelID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

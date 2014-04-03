@@ -1,0 +1,116 @@
+﻿@model HCCADBWebAppPrototype1.Models.ConsumerRepModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div>
+    <h2>Consumer Represenative Details</h2>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MemberStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MemberStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateTrained)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateTrained)
+        </dd>
+    </dl>
+    <hr />
+    <h4>Committee History</h4>
+
+    <dl class="dl-horizontal">
+        <dd>
+            <table class="table">
+                <tr>
+                    <th>Committee Name</th>
+                    <th>Endorsement Date</th>
+                    <th>Endorsement Type</th>
+                    <th>Endorsement Status</th>
+                    <th>Meeting Time</th>
+                    <th>Prep Time</th>
+                </tr>
+                @foreach (var item in Model.ConsumerRepsCommitteeHistoryModels)
+                {
+                    <tr>
+                        <td>
+                            @*@Html.DisplayFor(modelItem => item.CommitteName)*@
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EndorsementDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EndorsementType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EndorsementStatus)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Meetingtime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PrepTime)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ConsumerRepCommitteeHistoryModelID }) |
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit Details", "Edit", new { id = Model.ConsumerRepModelID }) |
+    @Html.ActionLink("Add To Committee", "Details", new { id = Model.ConsumerRepModelID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

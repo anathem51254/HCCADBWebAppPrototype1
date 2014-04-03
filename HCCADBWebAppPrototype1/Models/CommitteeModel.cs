@@ -9,23 +9,20 @@ using System.Web.Mvc;
 
 namespace HCCADBWebAppPrototype1.Models
 {
+    public enum CurrentStatus { Active, InActive };
+
     public class CommitteeModel
     {
-        [Key]
-        public int CommitteeId { get; set; }
+        public int CommitteeModelID { get; set; }
         
         [Display(Name="Committee Name")]
         public string CommitteeName { get; set; }
 
-        [Display(Name="Area Of Health")]
-        public string HealthArea { get; set; }
-
         [Display(Name="Status")]
-        public int Status { get; set; }
-    }
+        public CurrentStatus? CurrentStatus { get; set; }
 
-    public class HCCADbContext : DbContext
-    {
-        public DbSet<CommitteeModel> Committees { get; set; }
+        public virtual ICollection<CommitteeModel_CommitteeAreaOfHealthModel> CommitteeAreaOfHealthModels { get; set; }
+
+        public virtual ICollection<ConsumerRepCommitteeHistoryModel> ConsumerRepsCommitteeHistoryModels { get; set; }
     }
 }

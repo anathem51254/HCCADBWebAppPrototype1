@@ -1,0 +1,85 @@
+﻿@model IEnumerable<HCCADBWebAppPrototype1.Models.ConsumerRepModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Consumer Representatives Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Search By Member Status: @Html.DropDownList("SearchByStatus", (SelectList)ViewBag.MemberStatusTypes)
+        <input type="submit" value="Search"/>
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>*@
+        <th>
+            @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.NameSortParam })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.MemberStatus)
+            </th>*@
+        <th>
+            @Html.ActionLink("Member Status", "Index", new { sortOrder = ViewBag.MemberStatusSortParam })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateTrained)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateTrained)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ConsumerRepModelID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ConsumerRepModelID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ConsumerRepModelID })
+            </td>
+        </tr>
+    }
+
+</table>

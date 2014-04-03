@@ -1,13 +1,13 @@
 ﻿@model HCCADBWebAppPrototype1.Models.CommitteeModel
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Create";
 }
 
-<h2>Edit</h2>
+<h2>Create</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
@@ -15,7 +15,6 @@
         <h4>CommitteeModel</h4>
         <hr />
         @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.CommitteeId)
 
         <div class="form-group">
             @Html.LabelFor(model => model.CommitteeName, new { @class = "control-label col-md-2" })
@@ -26,24 +25,16 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.HealthArea, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CurrentStatus, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.HealthArea)
-                @Html.ValidationMessageFor(model => model.HealthArea)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Status, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Status)
-                @Html.ValidationMessageFor(model => model.Status)
+                @Html.EditorFor(model => model.CurrentStatus)
+                @Html.ValidationMessageFor(model => model.CurrentStatus)
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
