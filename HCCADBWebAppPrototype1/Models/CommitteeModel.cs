@@ -21,7 +21,8 @@ namespace HCCADBWebAppPrototype1.Models
         [Display(Name="Status")]
         public CurrentStatus? CurrentStatus { get; set; }
 
-        public virtual ICollection<CommitteeModel_CommitteeAreaOfHealthModel> CommitteeAreaOfHealthModels { get; set; }
+        //public virtual ICollection<CommitteeModel_CommitteeAreaOfHealthModel> CommitteeAreaOfHealthModels { get; set; }
+        public virtual ICollection<CommitteeAreaOfHealthModel> CommitteeAreaOfHealthModels { get; set; }
 
         public virtual ICollection<ConsumerRepCommitteeHistoryModel> ConsumerRepsCommitteeHistoryModels { get; set; }
     }

@@ -63,6 +63,14 @@
         <dd>
             @Html.DisplayFor(model => model.DateTrained)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateTrained)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateTrained)
+        </dd>
     </dl>
     <hr />
     <h4>Committee History</h4>
@@ -82,7 +90,7 @@
                 {
                     <tr>
                         <td>
-                            @*@Html.DisplayFor(modelItem => item.CommitteName)*@
+                            @Html.DisplayFor(modelItem => item.CommitteeModel.CommitteeName)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.EndorsementDate)
@@ -101,6 +109,26 @@
                         </td>
                         <td>
                             @Html.ActionLink("Edit", "Edit", new { id = item.ConsumerRepCommitteeHistoryModelID }) |
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+
+    </dl>
+    <h4>Interests</h4>
+
+    <dl class="dl-horizontal">
+        <dd>
+            <table class="table">
+                @foreach (var item in Model.ConsumerRepAreasOfInterestModels)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ConsumerRepAreaOfInterestModel.AreaOfInterestName)
+                        </td>
+                        <td>
+                            @*@Html.ActionLink("Edit", "Edit", new { id = item.ConsumerRepCommitteeHistoryModelID }) |*@
                         </td>
                     </tr>
                 }

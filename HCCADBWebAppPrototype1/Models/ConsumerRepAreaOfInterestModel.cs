@@ -15,6 +15,6 @@ namespace HCCADBWebAppPrototype1.Models
 
         public string AreaOfInterestName { get; set; }
 
-        public virtual ICollection<ConsumerRepModel_ConsumerRepAreaOfInterestModel> ConsumerRepAreasOfInterestModels { get; set; }
+        public virtual ConsumerRepModel ConsumerRepModel { get; set; }
     }
 }

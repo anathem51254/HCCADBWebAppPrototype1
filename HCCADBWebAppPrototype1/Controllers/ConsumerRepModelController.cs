@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using HCCADBWebAppPrototype1.Models;
 using HCCADBWebAppPrototype1.DAL;
+using System.Data.Entity.Infrastructure;
 
 namespace HCCADBWebAppPrototype1.Controllers
 {
@@ -120,7 +121,6 @@ namespace HCCADBWebAppPrototype1.Controllers
                 // Log the error here with dex var
                 ModelState.AddModelError("", "Unable to save changes. Please try again.");
             }
-
             return View(consumerrepmodel);
         }
 
@@ -160,7 +160,6 @@ namespace HCCADBWebAppPrototype1.Controllers
                 // Log the error here with dex var
                 ModelState.AddModelError("", "Unable to save changes. Please try again.");
             }
-
             return View(consumerrepmodel);
         }
 

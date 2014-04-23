@@ -1,0 +1,40 @@
+﻿@*@model IEnumerable<HCCADBWebAppPrototype1.Models.ConsumerRepModel_ConsumerRepAreaOfInterestModel>*@
+@model HCCADBWebAppPrototype1.ViewModels.ConsumerRepAreaOfInterestIndexData
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Area Of Interest
+        </th>
+    </tr>
+
+    @foreach (var item in Model.ConsumerRepModel_ConsumerRepAreaOfInterests) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ConsumerRepModel.FirstName)
+        </td>
+        <td>
+        </td>
+
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ConsumerRepModel_ConsumerRepAreaOfInterestModelID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ConsumerRepModel_ConsumerRepAreaOfInterestModelID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ConsumerRepModel_ConsumerRepAreaOfInterestModelID })
+        </td>
+    </tr>
+    }
+
+</table>

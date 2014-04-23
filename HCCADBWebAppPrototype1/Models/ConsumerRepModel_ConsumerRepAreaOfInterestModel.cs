@@ -15,6 +15,8 @@ namespace HCCADBWebAppPrototype1.Models
 
         public int ConsumerRepModelID { get; set; }
 
+        public int ConsumerRepAreaOfInterestModel_ConsumerRepAreaOfInterestModelID { get; set; }
+
         public virtual ConsumerRepModel ConsumerRepModel { get; set; }
 
         public virtual ConsumerRepAreaOfInterestModel ConsumerRepAreaOfInterestModel { get; set; }
