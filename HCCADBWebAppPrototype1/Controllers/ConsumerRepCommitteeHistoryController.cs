@@ -46,6 +46,41 @@ namespace HCCADBWebAppPrototype1.Controllers
             return View();
         }
 
+        // GET: /ConsumerRepCommitteeHistory/AddToCommittee/id
+        public ActionResult AddToCommittee(int id)
+        {
+            ViewBag.CommitteeModelID = new SelectList(db.Committees, "CommitteeModelID", "CommitteeName");
+            ViewBag.ConsumerRepModelID = id;
+            return View();
+        }
+
+        // POST: /ConsumerRepCommitteeHistory/AddToCommittee
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddToCommittee([Bind(Include = "ConsumerRepCommitteeHistoryModelID,CommitteeModelID,ConsumerRepModelID,PrepTime,Meetingtime,EndorsementStatus,EndorsementDate,EndorsementType")] ConsumerRepCommitteeHistoryModel consumerrepcommitteehistorymodel)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    db.ConsumerRepCommitteeHistory.Add(consumerrepcommitteehistorymodel);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Details/" + consumerrepcommitteehistorymodel.ConsumerRepModelID, "ConsumerRepModel");
+                }
+            }
+            catch (DataException /* dex */ )
+            {
+                // Log the error
+                ModelState.AddModelError("", "Unable to save changes. Please Try Again.");
+            }
+
+            ViewBag.CommitteeModelID = new SelectList(db.Committees, "CommitteeModelID", "CommitteeName");
+            ViewBag.ConsumerRepModelID = consumerrepcommitteehistorymodel.ConsumerRepModelID;
+            return View();
+        } 
+
         // POST: /ConsumerRepCommitteeHistory/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.

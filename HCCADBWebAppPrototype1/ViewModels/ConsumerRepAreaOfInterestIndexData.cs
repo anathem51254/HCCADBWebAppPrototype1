@@ -10,6 +10,5 @@ namespace HCCADBWebAppPrototype1.ViewModels
     {
         public IEnumerable<ConsumerRepModel> ConsumerReps { get; set; }
         public IEnumerable<ConsumerRepAreaOfInterestModel> ConsumerRepAreaOfInterests { get; set; }
-        public IEnumerable<ConsumerRepModel_ConsumerRepAreaOfInterestModel> ConsumerRepModel_ConsumerRepAreaOfInterests { get; set; }
     }
 }

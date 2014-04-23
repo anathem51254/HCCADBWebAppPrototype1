@@ -13,11 +13,11 @@ namespace HCCADBWebAppPrototype1.DAL
         public HCCADatabaseContext() : base("HCCADatbaseContext") { }
 
         public DbSet<CommitteeModel> Committees { get; set; }
-        public DbSet<CommitteeModel_CommitteeAreaOfHealthModel> Committee_CommitteeAreaOfHealth { get; set; }
+        //public DbSet<CommitteeModel_CommitteeAreaOfHealthModel> Committee_CommitteeAreaOfHealth { get; set; }
         public DbSet<CommitteeAreaOfHealthModel> CommitteeAreaOfHealth { get; set; }
 
         public DbSet<ConsumerRepModel> ConsumerReps { get; set; }
-        public DbSet<ConsumerRepModel_ConsumerRepAreaOfInterestModel> ConsumerRep_ConsumerRepAreasOfInterest { get; set; }
+        //public DbSet<ConsumerRepModel_ConsumerRepAreaOfInterestModel> ConsumerRep_ConsumerRepAreasOfInterest { get; set; }
         public DbSet<ConsumerRepAreaOfInterestModel> ConsumerRepAreasOfInterest { get; set; }
         public DbSet<ConsumerRepCommitteeHistoryModel> ConsumerRepCommitteeHistory { get; set; }
 

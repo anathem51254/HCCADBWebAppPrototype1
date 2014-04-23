@@ -1,13 +1,13 @@
 ﻿@model HCCADBWebAppPrototype1.Models.ConsumerRepCommitteeHistoryModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "AddToCommittee";
 }
 
-<h2>Create</h2>
+<h2>AddToCommittee</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
@@ -23,11 +23,12 @@
                 @Html.ValidationMessageFor(model => model.CommitteeModelID)
             </div>
         </div>
-        
+
         <div class="form-group">
             @Html.LabelFor(model => model.ConsumerRepModelID, "ConsumerRepModelID", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("ConsumerRepModelID", String.Empty)
+                @ViewBag.ConsumerRepModelID 
+                @Html.Hidden("ConsumerRepModelID", (object)ViewBag.ConsumerRepModelID.ToString())
                 @Html.ValidationMessageFor(model => model.ConsumerRepModelID)
             </div>
         </div>

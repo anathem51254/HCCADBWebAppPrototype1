@@ -163,28 +163,21 @@
     <Compile Include="Controllers\ConsumerRepAreaOfInterestController.cs" />
     <Compile Include="Controllers\ConsumerRepCommitteeHistoryController.cs" />
     <Compile Include="Controllers\ConsumerRepModelController.cs" />
-    <Compile Include="Controllers\ConsumerRepModel_ConsumerRepAreaOfInterestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DAL\HCCADatabaseContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201403300830559_InitialCreate.cs" />
-    <Compile Include="Migrations\201403300830559_InitialCreate.Designer.cs">
-      <DependentUpon>201403300830559_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201404101024519_ConsumerAreaOfInterestModelUpdate.cs" />
-    <Compile Include="Migrations\201404101024519_ConsumerAreaOfInterestModelUpdate.Designer.cs">
-      <DependentUpon>201404101024519_ConsumerAreaOfInterestModelUpdate.cs</DependentUpon>
+    <Compile Include="Migrations\201404231208435_Initial.cs" />
+    <Compile Include="Migrations\201404231208435_Initial.Designer.cs">
+      <DependentUpon>201404231208435_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommitteeModel.cs" />
-    <Compile Include="Models\CommitteeModel_CommitteeAreaOfHealthModel.cs" />
     <Compile Include="Models\CommitteeAreaOfHealthModel.cs" />
     <Compile Include="Models\ComsumerRepCommitteeHistoryModel.cs" />
     <Compile Include="Models\ConsumerRepAreaOfInterestModel.cs" />
-    <Compile Include="Models\ConsumerRepModel_ConsumerRepAreaOfInterestModel.cs" />
     <Compile Include="Models\ConsumerRepModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -257,11 +250,7 @@
     <Content Include="Views\ConsumerRepCommitteeHistory\Details.cshtml" />
     <Content Include="Views\ConsumerRepCommitteeHistory\Edit.cshtml" />
     <Content Include="Views\ConsumerRepCommitteeHistory\Index.cshtml" />
-    <Content Include="Views\ConsumerRepModel_ConsumerRepAreaOfInterest\Create.cshtml" />
-    <Content Include="Views\ConsumerRepModel_ConsumerRepAreaOfInterest\Delete.cshtml" />
-    <Content Include="Views\ConsumerRepModel_ConsumerRepAreaOfInterest\Details.cshtml" />
-    <Content Include="Views\ConsumerRepModel_ConsumerRepAreaOfInterest\Edit.cshtml" />
-    <Content Include="Views\ConsumerRepModel_ConsumerRepAreaOfInterest\Index.cshtml" />
+    <Content Include="Views\ConsumerRepCommitteeHistory\AddToCommittee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -274,11 +263,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201403300830559_InitialCreate.resx">
-      <DependentUpon>201403300830559_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201404101024519_ConsumerAreaOfInterestModelUpdate.resx">
-      <DependentUpon>201404101024519_ConsumerAreaOfInterestModelUpdate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201404231208435_Initial.resx">
+      <DependentUpon>201404231208435_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
