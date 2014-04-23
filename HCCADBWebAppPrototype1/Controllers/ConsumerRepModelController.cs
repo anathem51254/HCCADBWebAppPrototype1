@@ -8,8 +8,10 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using HCCADBWebAppPrototype1.Models;
+using HCCADBWebAppPrototype1.ViewModels;
 using HCCADBWebAppPrototype1.DAL;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.SqlServer;
 
 namespace HCCADBWebAppPrototype1.Controllers
 {
@@ -123,6 +125,58 @@ namespace HCCADBWebAppPrototype1.Controllers
             }
             return View(consumerrepmodel);
         }
+
+        // GET: /ConsumerRepModel/AddToInterest/id
+        public async Task<ActionResult> AddToInterest(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var vm = new AddToInterestConsumerRepViewModel
+            {
+                ConsumerRepAreaOfInterestModel = new ConsumerRepAreaOfInterestModel(),
+                ConsumerRepModel = db.ConsumerReps.Find(id),
+                ConsumerRepAreaOfInterests = new SelectList(db.ConsumerRepAreasOfInterest, "ConsumerRepAreaOfInterestModelID", "AreaOfInterestName")
+            };
+
+            if (vm.ConsumerRepModel == null)
+            {
+                return HttpNotFound();
+            }
+            return View(vm);
+        }
+
+        // POST: /ConsumerRepModel/AddToInterest
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddToInterest(AddToInterestConsumerRepViewModel vm)
+        {
+            vm.ConsumerRepModel.ConsumerRepAreasOfInterestModels.Add(vm.ConsumerRepAreaOfInterestModel);
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Entry(vm.ConsumerRepModel).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Details/" + vm.ConsumerRepModel.ConsumerRepModelID, "ConsumerRepModel");
+                }
+            }
+            catch (DataException /* dex */)
+            {
+                // Log the error here with dex var
+                ModelState.AddModelError("", "Unable to save changes. Please try again.");
+            }
+
+            ViewBag.CommitteeModelID = new SelectList(db.Committees, "CommitteeModelID", "CommitteeName");
+            ViewBag.ConsumerRepModelID = vm.ConsumerRepModel.ConsumerRepModelID;
+            return View();
+        } 
+
 
         // GET: /ConsumerRepModel/Edit/5
         public async Task<ActionResult> Edit(int? id)
