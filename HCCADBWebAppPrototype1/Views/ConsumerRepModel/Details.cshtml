@@ -4,74 +4,91 @@
     ViewBag.Title = "Details";
 }
 
-<div>
+<div class="row">
     <h2>Consumer Represenative Details</h2>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
+</div>
 
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
+<div class="row">
+    <div class="col-xs-6">
+        <hr />
+        <h4>Details</h4>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.MemberStatus)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.MemberStatus)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.MemberStatus)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DateTrained)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.MemberStatus)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.DateTrained)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DateTrained)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DateTrained)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateTrained)
+            </dd>
+        </dl>
+    </div>
+    <div class="col-xs-6">
+        <hr />
+        <h4>Interests</h4>
+        <dl class="dl-horizontal">
+            <dd>
+                <table class="table">
+                    @foreach (var item in Model.ConsumerRepModel_ConsumerRepAreasOfInterestModels)
+                    {
+                                @Html.DisplayFor(modelItem => item.ConsumerRepAreaOfInterestModel.AreaOfInterestName) 
+                                <text>|</text>
+                                @*@Html.ActionLink("Edit", "Edit", new { id = item.ConsumerRepAreaOfInterestModelID }) |*@
+                    }
+                </table>
+            </dd>
+        </dl>
+    </div>
+</div>
 
-        <dd>
-            @Html.DisplayFor(model => model.DateTrained)
-        </dd>
-    </dl>
+<div>
     <hr />
     <h4>Committee History</h4>
 
@@ -117,30 +134,11 @@
         </dd>
 
     </dl>
-    <h4>Interests</h4>
-
-    <dl class="dl-horizontal">
-        <dd>
-            <table class="table">
-                @foreach (var item in Model.ConsumerRepAreasOfInterestModels)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.AreaOfInterestName)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.ConsumerRepAreaOfInterestModelID }) |
-                        </td>
-                    </tr>
-                }
-            </table>
-        </dd>
-
-    </dl>
 </div>
 <p>
     @Html.ActionLink("Edit Details", "Edit", new { id = Model.ConsumerRepModelID }) |
     @Html.ActionLink("Add To Committee", "AddToCommittee", "ConsumerRepCommitteeHistory", new { id = Model.ConsumerRepModelID }, null) |
-    @Html.ActionLink("Add To Interest", "AddToInterest", new { id = Model.ConsumerRepModelID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Add To Interest", "AddConsumerToInterest", "ConsumerRepModel_ConsumerRepAreaOfInterest", new { id = Model.ConsumerRepModelID }, null) |
+    @Html.ActionLink("Back to List", "Index") |
+    @Html.ActionLink("Back to Main", "Main", "Main")
 </p>

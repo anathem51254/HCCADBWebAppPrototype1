@@ -36,8 +36,8 @@ namespace HCCADBWebAppPrototype1.Models
         [Display(Name = "Date Trained")] // month - year
         public DateTime DateTrained { get; set; }
 
-        //public virtual ICollection<ConsumerRepModel_ConsumerRepAreaOfInterestModel> ConsumerRepAreasOfInterestModels { get; set; }
-        public virtual ICollection<ConsumerRepAreaOfInterestModel> ConsumerRepAreasOfInterestModels { get; set; }
+        public virtual ICollection<ConsumerRepModel_ConsumerRepAreaOfInterestModel> ConsumerRepModel_ConsumerRepAreasOfInterestModels { get; set; }
+
         public virtual ICollection<ConsumerRepCommitteeHistoryModel> ConsumerRepsCommitteeHistoryModels { get; set; }
 
     }

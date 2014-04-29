@@ -155,7 +155,7 @@ namespace HCCADBWebAppPrototype1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddToInterest(AddToInterestConsumerRepViewModel vm)
         {
-            vm.ConsumerRepModel.ConsumerRepAreasOfInterestModels.Add(vm.ConsumerRepAreaOfInterestModel);
+            /*vm.ConsumerRepModel.ConsumerRepAreasOfInterestModels.Add(vm.ConsumerRepAreaOfInterestModel);
 
             try
             {
@@ -166,14 +166,16 @@ namespace HCCADBWebAppPrototype1.Controllers
                     return RedirectToAction("Details/" + vm.ConsumerRepModel.ConsumerRepModelID, "ConsumerRepModel");
                 }
             }
-            catch (DataException /* dex */)
-            {
+            catch (DataException /* dex *///)
+            //{
                 // Log the error here with dex var
+                /*
                 ModelState.AddModelError("", "Unable to save changes. Please try again.");
             }
 
             ViewBag.CommitteeModelID = new SelectList(db.Committees, "CommitteeModelID", "CommitteeName");
             ViewBag.ConsumerRepModelID = vm.ConsumerRepModel.ConsumerRepModelID;
+            */
             return View();
         } 
 
