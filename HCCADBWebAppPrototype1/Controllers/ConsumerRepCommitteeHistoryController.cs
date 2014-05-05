@@ -47,7 +47,7 @@ namespace HCCADBWebAppPrototype1.Controllers
         }
 
         // GET: /ConsumerRepCommitteeHistory/AddToCommittee/id
-        public ActionResult AddToCommittee(int id)
+        public ActionResult AddToCommittee(int? id)
         {
             ViewBag.CommitteeModelID = new SelectList(db.Committees, "CommitteeModelID", "CommitteeName");
             ViewBag.ConsumerRepModelID = id;
@@ -78,6 +78,41 @@ namespace HCCADBWebAppPrototype1.Controllers
 
             ViewBag.CommitteeModelID = new SelectList(db.Committees, "CommitteeModelID", "CommitteeName");
             ViewBag.ConsumerRepModelID = consumerrepcommitteehistorymodel.ConsumerRepModelID;
+            return View();
+        }
+        
+        // GET: /ConsumerRepCommitteeHistory/AddConsumer/id
+        public ActionResult AddConsumer(int id)
+        {
+            ViewBag.CommitteeModelID = id;
+            ViewBag.ConsumerRepModelID = new SelectList(db.ConsumerReps, "ConsumerRepModelID", "FirstName");
+            return View();
+        }
+
+        // POST: /ConsumerRepCommitteeHistory/AddConsumer
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddConsumer([Bind(Include = "ConsumerRepCommitteeHistoryModelID,CommitteeModelID,ConsumerRepModelID,PrepTime,Meetingtime,EndorsementStatus,EndorsementDate,EndorsementType")] ConsumerRepCommitteeHistoryModel consumerrepcommitteehistorymodel)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    db.ConsumerRepCommitteeHistory.Add(consumerrepcommitteehistorymodel);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Details/" + consumerrepcommitteehistorymodel.CommitteeModelID);
+                }
+            }
+            catch (DataException /* dex */ )
+            {
+                // Log the error
+                ModelState.AddModelError("", "Unable to save changes. Please Try Again.");
+            }
+
+            ViewBag.CommitteeModelID = consumerrepcommitteehistorymodel.CommitteeModelID;
+            ViewBag.ConsumerRepModelID = new SelectList(db.ConsumerReps, "ConsumerRepModelID", "FirstName");
             return View();
         } 
 

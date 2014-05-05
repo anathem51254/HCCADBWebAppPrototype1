@@ -1,84 +1,146 @@
-﻿using System;
+﻿using HCCADBWebAppPrototype1.BusinessLogic;
+using HCCADBWebAppPrototype1.DAL;
+using HCCADBWebAppPrototype1.Models;
+using HCCADBWebAppPrototype1.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using HCCADBWebAppPrototype1.Models;
-using HCCADBWebAppPrototype1.ViewModels;
-using HCCADBWebAppPrototype1.DAL;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.SqlServer;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace HCCADBWebAppPrototype1.Controllers
 {
     public class ConsumerRepModelController : Controller
     {
+        private Util_ConsumerRepModelController utils_ConRep = new Util_ConsumerRepModelController();
         private HCCADatabaseContext db = new HCCADatabaseContext();
 
         // GET: /ConsumerRepModel/
-        public async Task<ActionResult> Index(string sortOrder, string searchByStatus)
+        public async Task<ActionResult> Index(string sortOrder, string searchByInterest, string searchByStatus, string searchByName)
         {
             List<string> MemberStatusTypes = new List<string>();
-
             MemberStatusTypes.Add("All");
             MemberStatusTypes.Add("Active");
             MemberStatusTypes.Add("InActive");
-
             ViewBag.MemberStatusTypes = new SelectList(MemberStatusTypes);
+
+            List<string> AreasOfInterest = new List<string>();
+            AreasOfInterest.Add("All");
+            foreach (var interest in db.ConsumerRepAreasOfInterest)
+            {
+                AreasOfInterest.Add(interest.AreaOfInterestName);
+            }
+            ViewBag.AreasOfInterest = new SelectList(AreasOfInterest);
 
             ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.MemberStatusSortParam = sortOrder == "MemberStatus" ? "memberstatus_desc" : "MemberStatus";
 
             var consumerReps = from cr in db.ConsumerReps
-                           select cr;
+                               select cr;
 
-            if(!String.IsNullOrEmpty(searchByStatus))
+            var consumerRepsByName = from cr in db.ConsumerReps
+                                     where cr.FirstName.ToUpper().Contains(searchByName.ToUpper()) || cr.LastName.ToUpper().Contains(searchByName.ToUpper())
+                                     select cr;
+
+            var consumerRepsByInterest = from cr in db.ConsumerReps
+                                       from joinCrInte in db.ConsumerRepModel_ConsumerRepAreasOfInterestModel
+                                       where cr.ConsumerRepModelID == joinCrInte.ConsumerRepModelID
+                                       where joinCrInte.ConsumerRepAreaOfInterestModel.AreaOfInterestName == searchByInterest
+                                       select cr;
+
+            var consumerRepsByInterestByName = from cr in db.ConsumerReps
+                                             from joinCrInte in db.ConsumerRepModel_ConsumerRepAreasOfInterestModel
+                                             where cr.ConsumerRepModelID == joinCrInte.ConsumerRepModelID
+                                             where joinCrInte.ConsumerRepAreaOfInterestModel.AreaOfInterestName == searchByInterest
+                                             where cr.FirstName.ToUpper().Contains(searchByName.ToUpper()) || cr.LastName.ToUpper().Contains(searchByName.ToUpper())
+                                             select cr;
+
+            #region Search Logic
+            if (!String.IsNullOrEmpty(searchByStatus) && !String.IsNullOrEmpty(searchByName) && !String.IsNullOrEmpty(searchByInterest) && searchByInterest != "All")
             {
-                MemberStatus _searchByStatus = MemberStatus.Active; 
+                MemberStatus _searchByStatus = MemberStatus.Active;
 
-                if(searchByStatus == "All")
+                if (searchByStatus == "Active")
                 {
-                    consumerReps = from cr in db.ConsumerReps
-                           select cr;
+                    _searchByStatus = MemberStatus.Active;
+                    consumerRepsByInterestByName = consumerRepsByInterestByName.Where(cr => cr.MemberStatus.Value == _searchByStatus);
                 }
-                else if(searchByStatus == "Active")
+                else if (searchByStatus == "InActive")
+                {
+                    _searchByStatus = MemberStatus.InActive;
+                    consumerRepsByInterestByName = consumerRepsByInterestByName.Where(cr => cr.MemberStatus.Value == _searchByStatus);
+                }
+            }
+            else if (!String.IsNullOrEmpty(searchByStatus) && String.IsNullOrEmpty(searchByName) && !String.IsNullOrEmpty(searchByInterest) && searchByInterest != "All")
+            {
+                MemberStatus _searchByStatus = MemberStatus.Active;
+
+                if (searchByStatus == "Active")
+                {
+                    _searchByStatus = MemberStatus.Active;
+                    consumerRepsByInterest = consumerRepsByInterest.Where(cr => cr.MemberStatus.Value == _searchByStatus);
+                }
+                else if (searchByStatus == "InActive")
+                {
+                    _searchByStatus = MemberStatus.InActive;
+                    consumerRepsByInterest = consumerRepsByInterest.Where(cr => cr.MemberStatus.Value == _searchByStatus);
+                }
+            }
+            else if (!String.IsNullOrEmpty(searchByStatus) && !String.IsNullOrEmpty(searchByName) && (String.IsNullOrEmpty(searchByInterest) || searchByInterest == "All"))
+            {
+                MemberStatus _searchByStatus = MemberStatus.Active;
+
+                if (searchByStatus == "Active")
+                {
+                    _searchByStatus = MemberStatus.Active;
+                    consumerRepsByName = consumerRepsByName.Where(cr => cr.MemberStatus.Value == _searchByStatus);
+                }
+                else if (searchByStatus == "InActive")
+                {
+                    _searchByStatus = MemberStatus.InActive;
+                    consumerRepsByName = consumerRepsByName.Where(cr => cr.MemberStatus.Value == _searchByStatus);
+                }
+            }
+            else
+            { 
+                MemberStatus _searchByStatus = MemberStatus.Active;
+
+                if (searchByStatus == "Active")
                 {
                     _searchByStatus = MemberStatus.Active;
                     consumerReps = consumerReps.Where(cr => cr.MemberStatus.Value == _searchByStatus);
                 }
-                else if(searchByStatus == "InActive")
+                else if (searchByStatus == "InActive")
                 {
                     _searchByStatus = MemberStatus.InActive;
                     consumerReps = consumerReps.Where(cr => cr.MemberStatus.Value == _searchByStatus);
                 }
-                else
-                {
-                    consumerReps = from cr in db.ConsumerReps
-                           select cr;
-                }
             }
+            #endregion
 
-            switch(sortOrder)
+            if (!String.IsNullOrEmpty(searchByStatus) && !String.IsNullOrEmpty(searchByName) && !String.IsNullOrEmpty(searchByInterest) && searchByInterest != "All")
             {
-                case "name_desc":
-                    consumerReps = consumerReps.OrderByDescending(cr => cr.LastName);
-                    break;
-                case "MemberStatus":
-                    consumerReps = consumerReps.OrderBy(cr => cr.MemberStatus);
-                    break;
-                case "memberstatus_desc":
-                    consumerReps = consumerReps.OrderByDescending(cr => cr.MemberStatus);
-                    break;
-                default:
-                    consumerReps = consumerReps.OrderBy(cr => cr.LastName);
-                    break;
+                consumerRepsByInterestByName = utils_ConRep.ComsumerReps_SortIndex(sortOrder, consumerRepsByInterestByName);
+                return View(await consumerRepsByInterestByName.ToListAsync());
             }
-
-            return View(await consumerReps.ToListAsync());
+            else if (!String.IsNullOrEmpty(searchByStatus) && String.IsNullOrEmpty(searchByName) && !String.IsNullOrEmpty(searchByInterest) && searchByInterest != "All")
+            {
+                consumerRepsByInterest = utils_ConRep.ComsumerReps_SortIndex(sortOrder, consumerRepsByInterest);
+                return View(await consumerRepsByInterest.ToListAsync());
+            }
+            else if (!String.IsNullOrEmpty(searchByStatus) && !String.IsNullOrEmpty(searchByName) && (String.IsNullOrEmpty(searchByInterest) || searchByInterest == "All"))
+            { 
+                consumerRepsByName = utils_ConRep.ComsumerReps_SortIndex(sortOrder, consumerRepsByName);
+                return View(await consumerRepsByName.ToListAsync());
+            }
+            else
+                return View(await consumerReps.ToListAsync());
         }
 
         // GET: /ConsumerRepModel/Details/5

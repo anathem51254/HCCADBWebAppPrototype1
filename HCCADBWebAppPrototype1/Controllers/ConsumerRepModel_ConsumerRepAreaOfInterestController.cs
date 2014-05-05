@@ -37,15 +37,16 @@ namespace HCCADBWebAppPrototype1.Controllers
             }
             return View(consumerrepmodel_consumerrepareaofinterestmodel);
         }
-        // GET: /ConsumerRepModel_ConsumerRepAreaOfInterest/Create
+        // GET: /ConsumerRepModel_ConsumerRepAreaOfInterest/AddConsumerToInterest
         public ActionResult AddConsumerToInterest(int? id)
         {
+            // Add code to catch null
             ViewBag.ConsumerRepModelID = id;
             ViewBag.ConsumerRepAreaOfInterestModelID = new SelectList(db.ConsumerRepAreasOfInterest, "ConsumerRepAreaOfInterestModelID", "AreaOfInterestName");
             return View();
         }
 
-        // POST: /ConsumerRepModel_ConsumerRepAreaOfInterest/Create
+        // POST: /ConsumerRepModel_ConsumerRepAreaOfInterest/AddConsumerToInterest
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -61,42 +62,14 @@ namespace HCCADBWebAppPrototype1.Controllers
 
             ViewBag.ConsumerRepModelID = consumerrepmodel_consumerrepareaofinterestmodel.ConsumerRepModelID;
             ViewBag.ConsumerRepAreaOfInterestModelID = new SelectList(db.ConsumerRepAreasOfInterest, "ConsumerRepAreaOfInterestModelID", "AreaOfInterestName");
-            return View();
-        }
-
-        // GET: /ConsumerRepModel_ConsumerRepAreaOfInterest/Create
-        public ActionResult AddToInterest()
-        {
-            ViewBag.ConsumerRepModelID = new SelectList(db.ConsumerReps, "ConsumerRepModelID", "FirstName");
-            ViewBag.ConsumerRepAreaOfInterestModelID = new SelectList(db.ConsumerRepAreasOfInterest, "ConsumerRepAreaOfInterestModelID", "AreaOfInterestName");
-            return View();
-        }
-
-        // POST: /ConsumerRepModel_ConsumerRepAreaOfInterest/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddToInterest([Bind(Include="ConsumerRepModel_ConsumerRepAreaOfInterestModelID,ConsumerRepModelID,ConsumerRepAreaOfInterestModelID")] ConsumerRepModel_ConsumerRepAreaOfInterestModel consumerrepmodel_consumerrepareaofinterestmodel)
-        {
-            if (ModelState.IsValid)
-            {
-                db.ConsumerRepModel_ConsumerRepAreasOfInterestModel.Add(consumerrepmodel_consumerrepareaofinterestmodel);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.ConsumerRepModelID = new SelectList(db.ConsumerReps, "ConsumerRepModelID", "FirstName", consumerrepmodel_consumerrepareaofinterestmodel.ConsumerRepModelID);
-            ViewBag.ConsumerRepAreaOfInterestModelID = new SelectList(db.ConsumerRepAreasOfInterest, "ConsumerRepAreaOfInterestModelID", "AreaOfInterestName");
             return View(consumerrepmodel_consumerrepareaofinterestmodel);
         }
-
-
 
         // GET: /ConsumerRepModel_ConsumerRepAreaOfInterest/Create
         public ActionResult Create()
         {
             ViewBag.ConsumerRepModelID = new SelectList(db.ConsumerReps, "ConsumerRepModelID", "FirstName");
+            ViewBag.ConsumerRepAreaOfInterestModelID = new SelectList(db.ConsumerRepAreasOfInterest, "ConsumerRepAreaOfInterestModelID", "AreaOfInterestName");
             return View();
         }
 
@@ -115,6 +88,7 @@ namespace HCCADBWebAppPrototype1.Controllers
             }
 
             ViewBag.ConsumerRepModelID = new SelectList(db.ConsumerReps, "ConsumerRepModelID", "FirstName", consumerrepmodel_consumerrepareaofinterestmodel.ConsumerRepModelID);
+            ViewBag.ConsumerRepAreaOfInterestModelID = new SelectList(db.ConsumerRepAreasOfInterest, "ConsumerRepAreaOfInterestModelID", "AreaOfInterestName");
             return View(consumerrepmodel_consumerrepareaofinterestmodel);
         }
 

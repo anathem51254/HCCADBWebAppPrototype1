@@ -169,8 +169,11 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="BusinessLogic\Util_ConsumerRepModelController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CommitteeAreaOfHealthModelController.cs" />
     <Compile Include="Controllers\CommitteeModelController.cs" />
+    <Compile Include="Controllers\CommitteeModel_CommitteeAreaOfHealthModelController.cs" />
     <Compile Include="Controllers\ConsumerRepAreaOfInterestController.cs" />
     <Compile Include="Controllers\ConsumerRepCommitteeHistoryController.cs" />
     <Compile Include="Controllers\ConsumerRepModelController.cs" />
@@ -194,10 +197,19 @@
     <Compile Include="Migrations\201404250624428_incorrect ID name in consumerrepmodel_consumerepareaofinterestmodelid join table.Designer.cs">
       <DependentUpon>201404250624428_incorrect ID name in consumerrepmodel_consumerepareaofinterestmodelid join table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201404301037082_updated AreaOfHealth model.cs" />
+    <Compile Include="Migrations\201404301037082_updated AreaOfHealth model.Designer.cs">
+      <DependentUpon>201404301037082_updated AreaOfHealth model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201404301040372_fixed issue with areaofhealth join table.cs" />
+    <Compile Include="Migrations\201404301040372_fixed issue with areaofhealth join table.Designer.cs">
+      <DependentUpon>201404301040372_fixed issue with areaofhealth join table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommitteeModel.cs" />
     <Compile Include="Models\CommitteeAreaOfHealthModel.cs" />
+    <Compile Include="Models\CommitteeModel_CommitteeAreaOfHealthModel.cs" />
     <Compile Include="Models\ComsumerRepCommitteeHistoryModel.cs" />
     <Compile Include="Models\ConsumerRepAreaOfInterestModel.cs" />
     <Compile Include="Models\ConsumerRepModel.cs" />
@@ -206,6 +218,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AddToInterestConsumerRepViewModel.cs" />
+    <Compile Include="ViewModels\ConsumerRepIndexViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ReportGenerationViewModel.cs" />
   </ItemGroup>
@@ -283,11 +296,22 @@
     <Content Include="Views\ConsumerRepModel_ConsumerRepAreaOfInterest\Details.cshtml" />
     <Content Include="Views\ConsumerRepModel_ConsumerRepAreaOfInterest\Edit.cshtml" />
     <Content Include="Views\ConsumerRepModel_ConsumerRepAreaOfInterest\Index.cshtml" />
-    <Content Include="Views\ConsumerRepModel_ConsumerRepAreaOfInterest\AddToInterest.cshtml" />
     <Content Include="Views\ConsumerRepModel_ConsumerRepAreaOfInterest\AddConsumerToInterest.cshtml" />
     <Content Include="Views\ReportGeneration.cshtml" />
     <Content Include="Views\ReportGeneration\GenerateReport.cshtml" />
     <Content Include="Views\Main\Main.cshtml" />
+    <Content Include="Views\ConsumerRepCommitteeHistory\AddConsumer.cshtml" />
+    <Content Include="Views\CommitteeModel_CommitteeAreaOfHealthModel\Create.cshtml" />
+    <Content Include="Views\CommitteeModel_CommitteeAreaOfHealthModel\Delete.cshtml" />
+    <Content Include="Views\CommitteeModel_CommitteeAreaOfHealthModel\Details.cshtml" />
+    <Content Include="Views\CommitteeModel_CommitteeAreaOfHealthModel\Edit.cshtml" />
+    <Content Include="Views\CommitteeModel_CommitteeAreaOfHealthModel\Index.cshtml" />
+    <Content Include="Views\CommitteeModel_CommitteeAreaOfHealthModel\AddCommitteeToArea.cshtml" />
+    <Content Include="Views\CommitteeAreaOfHealthModel\Create.cshtml" />
+    <Content Include="Views\CommitteeAreaOfHealthModel\Delete.cshtml" />
+    <Content Include="Views\CommitteeAreaOfHealthModel\Details.cshtml" />
+    <Content Include="Views\CommitteeAreaOfHealthModel\Edit.cshtml" />
+    <Content Include="Views\CommitteeAreaOfHealthModel\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -308,6 +332,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201404250624428_incorrect ID name in consumerrepmodel_consumerepareaofinterestmodelid join table.resx">
       <DependentUpon>201404250624428_incorrect ID name in consumerrepmodel_consumerepareaofinterestmodelid join table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201404301037082_updated AreaOfHealth model.resx">
+      <DependentUpon>201404301037082_updated AreaOfHealth model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201404301040372_fixed issue with areaofhealth join table.resx">
+      <DependentUpon>201404301040372_fixed issue with areaofhealth join table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

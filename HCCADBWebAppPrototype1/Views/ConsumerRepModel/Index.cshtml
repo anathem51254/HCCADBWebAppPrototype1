@@ -14,9 +14,13 @@
 {
     <p>
         Search By Member Status: @Html.DropDownList("SearchByStatus", (SelectList)ViewBag.MemberStatusTypes)
+        Search By Name: @Html.TextBox("SearchByName")
+        Search By Interest: @Html.DropDownList("searchByInterest", (SelectList)ViewBag.AreasOfInterest)
         <input type="submit" value="Search"/>
     </p>
 }
+
+
 
 <table class="table">
     <tr>

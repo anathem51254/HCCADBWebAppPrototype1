@@ -5,7 +5,7 @@
 }
 
 <div class="row">
-    <h2>Consumer Represenative Details</h2>
+    <h2>Consumer Represenative</h2>
 </div>
 
 <div class="row">
@@ -78,9 +78,8 @@
                 <table class="table">
                     @foreach (var item in Model.ConsumerRepModel_ConsumerRepAreasOfInterestModels)
                     {
-                                @Html.DisplayFor(modelItem => item.ConsumerRepAreaOfInterestModel.AreaOfInterestName) 
-                                <text>|</text>
-                                @*@Html.ActionLink("Edit", "Edit", new { id = item.ConsumerRepAreaOfInterestModelID }) |*@
+                        @Html.DisplayFor(modelItem => item.ConsumerRepAreaOfInterestModel.AreaOfInterestName)
+                        <text> | </text>
                     }
                 </table>
             </dd>
@@ -88,7 +87,7 @@
     </div>
 </div>
 
-<div>
+<div class="row">
     <hr />
     <h4>Committee History</h4>
 

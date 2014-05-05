@@ -14,7 +14,7 @@ namespace HCCADBWebAppPrototype1.DAL
 
         public DbSet<CommitteeModel> Committees { get; set; }
         
-        //public DbSet<CommitteeModel_CommitteeAreaOfHealthModel> Committee_CommitteeAreaOfHealth { get; set; }
+        public DbSet<CommitteeModel_CommitteeAreaOfHealthModel> CommitteeModel_CommitteeAreaOfHealth { get; set; }
 
         public DbSet<CommitteeAreaOfHealthModel> CommitteeAreaOfHealth { get; set; }
 

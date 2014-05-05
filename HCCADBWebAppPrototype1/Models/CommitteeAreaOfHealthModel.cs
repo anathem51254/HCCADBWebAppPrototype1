@@ -15,8 +15,7 @@ namespace HCCADBWebAppPrototype1.Models
 
         public string AreaOfHealthName { get; set; }
 
-        //public virtual ICollection<CommitteeModel_CommitteeAreaOfHealthModel> CommitteeAreaOfHealthModels { get; set; }
-        public virtual CommitteeModel CommitteeModel { get; set; }
+        public virtual ICollection<CommitteeModel_CommitteeAreaOfHealthModel> CommitteeModel_CommitteeAreaOfHealthModels { get; set; }
 
     }
 }
