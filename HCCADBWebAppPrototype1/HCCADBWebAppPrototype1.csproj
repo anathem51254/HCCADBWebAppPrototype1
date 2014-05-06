@@ -169,6 +169,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="BusinessLogic\Util_Base.cs" />
+    <Compile Include="BusinessLogic\Util_CommitteeModelController.cs" />
     <Compile Include="BusinessLogic\Util_ConsumerRepModelController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CommitteeAreaOfHealthModelController.cs" />
@@ -204,6 +206,18 @@
     <Compile Include="Migrations\201404301040372_fixed issue with areaofhealth join table.cs" />
     <Compile Include="Migrations\201404301040372_fixed issue with areaofhealth join table.Designer.cs">
       <DependentUpon>201404301040372_fixed issue with areaofhealth join table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201405050958068_removed contact infp.cs" />
+    <Compile Include="Migrations\201405050958068_removed contact infp.Designer.cs">
+      <DependentUpon>201405050958068_removed contact infp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201405051135523_updated committee history model.cs" />
+    <Compile Include="Migrations\201405051135523_updated committee history model.Designer.cs">
+      <DependentUpon>201405051135523_updated committee history model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201405051205086_added ReportedDate to committee history model.cs" />
+    <Compile Include="Migrations\201405051205086_added ReportedDate to committee history model.Designer.cs">
+      <DependentUpon>201405051205086_added ReportedDate to committee history model.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -312,6 +326,7 @@
     <Content Include="Views\CommitteeAreaOfHealthModel\Details.cshtml" />
     <Content Include="Views\CommitteeAreaOfHealthModel\Edit.cshtml" />
     <Content Include="Views\CommitteeAreaOfHealthModel\Index.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -338,6 +353,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201404301040372_fixed issue with areaofhealth join table.resx">
       <DependentUpon>201404301040372_fixed issue with areaofhealth join table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201405050958068_removed contact infp.resx">
+      <DependentUpon>201405050958068_removed contact infp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201405051135523_updated committee history model.resx">
+      <DependentUpon>201405051135523_updated committee history model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201405051205086_added ReportedDate to committee history model.resx">
+      <DependentUpon>201405051205086_added ReportedDate to committee history model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

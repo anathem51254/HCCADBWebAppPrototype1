@@ -9,31 +9,34 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Committee Status: @Html.DropDownList("searchByStatus", (SelectList)ViewBag.CommitteeStatuses)
+        <input type="submit" value="Search" />
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.CommitteeName)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CurrentStatus)
-        </th>
-        <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.CommitteeName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CurrentStatus)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CommitteeModelID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CommitteeModelID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CommitteeModelID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CommitteeName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CommitteeModelID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CommitteeModelID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CommitteeModelID })
+            </td>
+        </tr>
+    }
 
 </table>

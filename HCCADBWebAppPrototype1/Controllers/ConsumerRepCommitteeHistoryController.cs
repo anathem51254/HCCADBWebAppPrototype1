@@ -9,12 +9,15 @@ using System.Web;
 using System.Web.Mvc;
 using HCCADBWebAppPrototype1.Models;
 using HCCADBWebAppPrototype1.DAL;
+using HCCADBWebAppPrototype1.BusinessLogic;
 
 namespace HCCADBWebAppPrototype1.Controllers
 {
     public class ConsumerRepCommitteeHistoryController : Controller
     {
         private HCCADatabaseContext db = new HCCADatabaseContext();
+
+        private Util_Base util_base = new Util_Base();
 
         // GET: /ConsumerRepCommitteeHistory/
         public async Task<ActionResult> Index()
@@ -38,13 +41,7 @@ namespace HCCADBWebAppPrototype1.Controllers
             return View(consumerrepcommitteehistorymodel);
         }
 
-        // GET: /ConsumerRepCommitteeHistory/Create
-        public ActionResult Create()
-        {
-            ViewBag.CommitteeModelID = new SelectList(db.Committees, "CommitteeModelID", "CommitteeName");
-            ViewBag.ConsumerRepModelID = new SelectList(db.ConsumerReps, "ConsumerRepModelID", "FirstName");
-            return View();
-        }
+        
 
         // GET: /ConsumerRepCommitteeHistory/AddToCommittee/id
         public ActionResult AddToCommittee(int? id)
@@ -65,7 +62,10 @@ namespace HCCADBWebAppPrototype1.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    consumerrepcommitteehistorymodel.ReportedDate = DateTime.Today;
+
                     db.ConsumerRepCommitteeHistory.Add(consumerrepcommitteehistorymodel);
+
                     await db.SaveChangesAsync();
                     return RedirectToAction("Details/" + consumerrepcommitteehistorymodel.ConsumerRepModelID, "ConsumerRepModel");
                 }
@@ -100,7 +100,10 @@ namespace HCCADBWebAppPrototype1.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    consumerrepcommitteehistorymodel.ReportedDate = DateTime.Today;
+
                     db.ConsumerRepCommitteeHistory.Add(consumerrepcommitteehistorymodel);
+
                     await db.SaveChangesAsync();
                     return RedirectToAction("Details/" + consumerrepcommitteehistorymodel.CommitteeModelID);
                 }
@@ -114,7 +117,15 @@ namespace HCCADBWebAppPrototype1.Controllers
             ViewBag.CommitteeModelID = consumerrepcommitteehistorymodel.CommitteeModelID;
             ViewBag.ConsumerRepModelID = new SelectList(db.ConsumerReps, "ConsumerRepModelID", "FirstName");
             return View();
-        } 
+        }
+
+        // GET: /ConsumerRepCommitteeHistory/Create
+        public ActionResult Create()
+        {
+            ViewBag.CommitteeModelID = new SelectList(db.Committees, "CommitteeModelID", "CommitteeName");
+            ViewBag.ConsumerRepModelID = new SelectList(db.ConsumerReps, "ConsumerRepModelID", "FirstName");
+            return View();
+        }
 
         // POST: /ConsumerRepCommitteeHistory/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -127,6 +138,8 @@ namespace HCCADBWebAppPrototype1.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    consumerrepcommitteehistorymodel.ReportedDate = DateTime.Today;
+
                     db.ConsumerRepCommitteeHistory.Add(consumerrepcommitteehistorymodel);
                     await db.SaveChangesAsync();
                     return RedirectToAction("Index");

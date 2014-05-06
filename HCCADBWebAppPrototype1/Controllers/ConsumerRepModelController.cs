@@ -22,12 +22,18 @@ namespace HCCADBWebAppPrototype1.Controllers
         private HCCADatabaseContext db = new HCCADatabaseContext();
 
         // GET: /ConsumerRepModel/
-        public async Task<ActionResult> Index(string sortOrder, string searchByInterest, string searchByStatus, string searchByName)
+        public async Task<ActionResult> Index(string sortOrder, string searchByInterest, string searchByStatus, string searchByName, string startDate, string endDate)
         {
+            if (String.IsNullOrEmpty(searchByStatus))
+            {
+                searchByStatus = "Yes";
+            }
+
             List<string> MemberStatusTypes = new List<string>();
+            MemberStatusTypes.Add("Yes");
+            MemberStatusTypes.Add("No");
             MemberStatusTypes.Add("All");
-            MemberStatusTypes.Add("Active");
-            MemberStatusTypes.Add("InActive");
+
             ViewBag.MemberStatusTypes = new SelectList(MemberStatusTypes);
 
             List<string> AreasOfInterest = new List<string>();
@@ -39,7 +45,7 @@ namespace HCCADBWebAppPrototype1.Controllers
             ViewBag.AreasOfInterest = new SelectList(AreasOfInterest);
 
             ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.MemberStatusSortParam = sortOrder == "MemberStatus" ? "memberstatus_desc" : "MemberStatus";
+            //ViewBag.MemberStatusSortParam = sortOrder == "MemberStatus" ? "memberstatus_desc" : "MemberStatus";
 
             var consumerReps = from cr in db.ConsumerReps
                                select cr;
@@ -61,81 +67,313 @@ namespace HCCADBWebAppPrototype1.Controllers
                                              where cr.FirstName.ToUpper().Contains(searchByName.ToUpper()) || cr.LastName.ToUpper().Contains(searchByName.ToUpper())
                                              select cr;
 
+            ///
+            /// Consumer Reps By DateTrained
+            ///
+            var consumerRepsByDateTrained = from cr in db.ConsumerReps
+                                            select cr;
+
+            if (!String.IsNullOrEmpty(startDate) && !String.IsNullOrEmpty(endDate)) 
+            {
+                DateTime StartDate = Convert.ToDateTime(startDate);
+                DateTime EndDate = Convert.ToDateTime(endDate);
+
+                consumerRepsByDateTrained = from cr in db.ConsumerReps
+                                            where cr.DateTrained >= StartDate && cr.DateTrained <= EndDate
+                                            select cr;
+            }
+            else if (!String.IsNullOrEmpty(startDate) && String.IsNullOrEmpty(endDate)) 
+            {
+                DateTime StartDate = Convert.ToDateTime(startDate);
+
+                consumerRepsByDateTrained = from cr in db.ConsumerReps
+                                            where cr.DateTrained >= StartDate
+                                            select cr;
+            }
+            else if (String.IsNullOrEmpty(startDate) && !String.IsNullOrEmpty(endDate)) 
+            {
+                DateTime EndDate = Convert.ToDateTime(endDate);
+
+                consumerRepsByDateTrained = from cr in db.ConsumerReps
+                                            where cr.DateTrained <= EndDate
+                                            select cr;
+            }
+
+            ///
+            /// Consumer Reps By DateTrained, Name 
+            ///
+            var consumerRepsByDateTrainedByName = from cr in db.ConsumerReps
+                                                  select cr;
+
+            if (!String.IsNullOrEmpty(startDate) && !String.IsNullOrEmpty(endDate))
+            {
+                DateTime StartDate = Convert.ToDateTime(startDate);
+                DateTime EndDate = Convert.ToDateTime(endDate);
+
+                consumerRepsByDateTrainedByName = from cr in db.ConsumerReps
+                                            where cr.DateTrained >= StartDate && cr.DateTrained <= EndDate
+                                            where cr.FirstName.ToUpper().Contains(searchByName.ToUpper()) || cr.LastName.ToUpper().Contains(searchByName.ToUpper())
+                                            select cr;
+            }
+            else if (!String.IsNullOrEmpty(startDate) && String.IsNullOrEmpty(endDate))
+            {
+                DateTime StartDate = Convert.ToDateTime(startDate);
+
+                consumerRepsByDateTrainedByName = from cr in db.ConsumerReps
+                                            where cr.DateTrained >= StartDate
+                                            where cr.FirstName.ToUpper().Contains(searchByName.ToUpper()) || cr.LastName.ToUpper().Contains(searchByName.ToUpper())
+                                            select cr;
+            }
+            else if (String.IsNullOrEmpty(startDate) && !String.IsNullOrEmpty(endDate))
+            {
+                DateTime EndDate = Convert.ToDateTime(endDate);
+
+                consumerRepsByDateTrainedByName = from cr in db.ConsumerReps
+                                            where cr.DateTrained <= EndDate
+                                            where cr.FirstName.ToUpper().Contains(searchByName.ToUpper()) || cr.LastName.ToUpper().Contains(searchByName.ToUpper())
+                                            select cr;
+            }
+
+            ///
+            /// Consumer Reps By DateTrained, Interest 
+            ///
+            var consumerRepsByDateTrainedByInterest = from cr in db.ConsumerReps
+                                                  select cr;
+
+            if (!String.IsNullOrEmpty(startDate) && !String.IsNullOrEmpty(endDate))
+            {
+                DateTime StartDate = Convert.ToDateTime(startDate);
+                DateTime EndDate = Convert.ToDateTime(endDate);
+
+                consumerRepsByDateTrainedByInterest = from cr in db.ConsumerReps
+                                                      from joinCrInte in db.ConsumerRepModel_ConsumerRepAreasOfInterestModel
+                                                      where cr.ConsumerRepModelID == joinCrInte.ConsumerRepModelID
+                                                      where joinCrInte.ConsumerRepAreaOfInterestModel.AreaOfInterestName == searchByInterest
+                                                      where cr.DateTrained >= StartDate && cr.DateTrained <= EndDate
+                                                      select cr;
+            }
+            else if (!String.IsNullOrEmpty(startDate) && String.IsNullOrEmpty(endDate))
+            {
+                DateTime StartDate = Convert.ToDateTime(startDate);
+
+                consumerRepsByDateTrainedByInterest = from cr in db.ConsumerReps
+                                                      from joinCrInte in db.ConsumerRepModel_ConsumerRepAreasOfInterestModel
+                                                      where cr.ConsumerRepModelID == joinCrInte.ConsumerRepModelID
+                                                      where joinCrInte.ConsumerRepAreaOfInterestModel.AreaOfInterestName == searchByInterest
+                                                      where cr.DateTrained >= StartDate
+                                                      select cr;
+            }
+            else if (String.IsNullOrEmpty(startDate) && !String.IsNullOrEmpty(endDate))
+            {
+                DateTime EndDate = Convert.ToDateTime(endDate);
+
+                consumerRepsByDateTrainedByInterest = from cr in db.ConsumerReps
+                                                      from joinCrInte in db.ConsumerRepModel_ConsumerRepAreasOfInterestModel
+                                                      where cr.ConsumerRepModelID == joinCrInte.ConsumerRepModelID
+                                                      where joinCrInte.ConsumerRepAreaOfInterestModel.AreaOfInterestName == searchByInterest
+                                                      where cr.DateTrained <= EndDate
+                                                      select cr;
+            }
+
+            ///
+            /// Consumer Reps By DateTrained, Interest & Name
+            ///
+            var consumerRepsByDateTrainedByInterestByName = from cr in db.ConsumerReps
+                                                      select cr;
+
+            if (!String.IsNullOrEmpty(startDate) && !String.IsNullOrEmpty(endDate))
+            {
+                DateTime StartDate = Convert.ToDateTime(startDate);
+                DateTime EndDate = Convert.ToDateTime(endDate);
+
+                consumerRepsByDateTrainedByInterestByName = from cr in db.ConsumerReps
+                                                      from joinCrInte in db.ConsumerRepModel_ConsumerRepAreasOfInterestModel
+                                                      where cr.ConsumerRepModelID == joinCrInte.ConsumerRepModelID
+                                                      where joinCrInte.ConsumerRepAreaOfInterestModel.AreaOfInterestName == searchByInterest
+                                                      where cr.FirstName.ToUpper().Contains(searchByName.ToUpper()) || cr.LastName.ToUpper().Contains(searchByName.ToUpper())
+                                                      where cr.DateTrained >= StartDate && cr.DateTrained <= EndDate
+                                                      select cr;
+            }
+            else if (!String.IsNullOrEmpty(startDate) && String.IsNullOrEmpty(endDate))
+            {
+                DateTime StartDate = Convert.ToDateTime(startDate);
+
+                consumerRepsByDateTrainedByInterestByName = from cr in db.ConsumerReps
+                                                      from joinCrInte in db.ConsumerRepModel_ConsumerRepAreasOfInterestModel
+                                                      where cr.ConsumerRepModelID == joinCrInte.ConsumerRepModelID
+                                                      where joinCrInte.ConsumerRepAreaOfInterestModel.AreaOfInterestName == searchByInterest
+                                                      where cr.FirstName.ToUpper().Contains(searchByName.ToUpper()) || cr.LastName.ToUpper().Contains(searchByName.ToUpper())
+                                                      where cr.DateTrained >= StartDate
+                                                      select cr;
+            }
+            else if (String.IsNullOrEmpty(startDate) && !String.IsNullOrEmpty(endDate))
+            {
+                DateTime EndDate = Convert.ToDateTime(endDate);
+
+                consumerRepsByDateTrainedByInterestByName = from cr in db.ConsumerReps
+                                                      from joinCrInte in db.ConsumerRepModel_ConsumerRepAreasOfInterestModel
+                                                      where cr.ConsumerRepModelID == joinCrInte.ConsumerRepModelID
+                                                      where joinCrInte.ConsumerRepAreaOfInterestModel.AreaOfInterestName == searchByInterest
+                                                      where cr.FirstName.ToUpper().Contains(searchByName.ToUpper()) || cr.LastName.ToUpper().Contains(searchByName.ToUpper())
+                                                      where cr.DateTrained <= EndDate
+                                                      select cr;
+            }
+
             #region Search Logic
-            if (!String.IsNullOrEmpty(searchByStatus) && !String.IsNullOrEmpty(searchByName) && !String.IsNullOrEmpty(searchByInterest) && searchByInterest != "All")
+            if ((!String.IsNullOrEmpty(startDate) || !String.IsNullOrEmpty(endDate)) && !String.IsNullOrEmpty(searchByStatus) && !String.IsNullOrEmpty(searchByName) && (!String.IsNullOrEmpty(searchByInterest) && searchByInterest != "All"))
             {
-                MemberStatus _searchByStatus = MemberStatus.Active;
+                MemberStatus _searchByStatus = MemberStatus.Yes;
 
-                if (searchByStatus == "Active")
+                if (searchByStatus == "Yes")
                 {
-                    _searchByStatus = MemberStatus.Active;
+                    _searchByStatus = MemberStatus.Yes;
+                    consumerRepsByDateTrainedByInterestByName = consumerRepsByDateTrainedByInterestByName.Where(cr => cr.MemberStatus.Value == _searchByStatus);
+                }
+                else if (searchByStatus == "No")
+                {
+                    _searchByStatus = MemberStatus.No;
+                    consumerRepsByDateTrainedByInterestByName = consumerRepsByDateTrainedByInterestByName.Where(cr => cr.MemberStatus.Value == _searchByStatus);
+                }
+            }
+            else if ((!String.IsNullOrEmpty(startDate) || !String.IsNullOrEmpty(endDate)) && !String.IsNullOrEmpty(searchByStatus) && String.IsNullOrEmpty(searchByName) && (!String.IsNullOrEmpty(searchByInterest) && searchByInterest != "All"))
+            {
+                MemberStatus _searchByStatus = MemberStatus.Yes;
+
+                if (searchByStatus == "Yes")
+                {
+                    _searchByStatus = MemberStatus.Yes;
+                    consumerRepsByDateTrainedByInterest = consumerRepsByDateTrainedByInterest.Where(cr => cr.MemberStatus.Value == _searchByStatus);
+                }
+                else if (searchByStatus == "No")
+                {
+                    _searchByStatus = MemberStatus.No;
+                    consumerRepsByDateTrainedByInterest = consumerRepsByDateTrainedByInterest.Where(cr => cr.MemberStatus.Value == _searchByStatus);
+                }
+            } 
+            else if ((!String.IsNullOrEmpty(startDate) || !String.IsNullOrEmpty(endDate)) && !String.IsNullOrEmpty(searchByStatus) && !String.IsNullOrEmpty(searchByName) && (String.IsNullOrEmpty(searchByInterest) || searchByInterest == "All"))
+            {
+                MemberStatus _searchByStatus = MemberStatus.Yes;
+
+                if (searchByStatus == "Yes")
+                {
+                    _searchByStatus = MemberStatus.Yes;
+                    consumerRepsByDateTrainedByName = consumerRepsByDateTrainedByName.Where(cr => cr.MemberStatus.Value == _searchByStatus);
+                }
+                else if (searchByStatus == "No")
+                {
+                    _searchByStatus = MemberStatus.No;
+                    consumerRepsByDateTrainedByName = consumerRepsByDateTrainedByName.Where(cr => cr.MemberStatus.Value == _searchByStatus);
+                }
+            }
+            else if ((!String.IsNullOrEmpty(startDate) || !String.IsNullOrEmpty(endDate)) && String.IsNullOrEmpty(searchByStatus) && String.IsNullOrEmpty(searchByName) && (String.IsNullOrEmpty(searchByInterest) || searchByInterest == "All"))
+            {
+                MemberStatus _searchByStatus = MemberStatus.Yes;
+
+                if (searchByStatus == "Yes")
+                {
+                    _searchByStatus = MemberStatus.Yes;
+                    consumerRepsByDateTrained = consumerRepsByDateTrained.Where(cr => cr.MemberStatus.Value == _searchByStatus);
+                }
+                else if (searchByStatus == "No")
+                {
+                    _searchByStatus = MemberStatus.No;
+                    consumerRepsByDateTrained = consumerRepsByDateTrained.Where(cr => cr.MemberStatus.Value == _searchByStatus);
+                }
+            }
+            else if ((String.IsNullOrEmpty(startDate) || String.IsNullOrEmpty(endDate)) && !String.IsNullOrEmpty(searchByStatus) && !String.IsNullOrEmpty(searchByName) && (!String.IsNullOrEmpty(searchByInterest) && searchByInterest != "All"))
+            {
+                MemberStatus _searchByStatus = MemberStatus.Yes;
+
+                if (searchByStatus == "Yes")
+                {
+                    _searchByStatus = MemberStatus.Yes;
                     consumerRepsByInterestByName = consumerRepsByInterestByName.Where(cr => cr.MemberStatus.Value == _searchByStatus);
                 }
-                else if (searchByStatus == "InActive")
+                else if (searchByStatus == "No")
                 {
-                    _searchByStatus = MemberStatus.InActive;
+                    _searchByStatus = MemberStatus.No;
                     consumerRepsByInterestByName = consumerRepsByInterestByName.Where(cr => cr.MemberStatus.Value == _searchByStatus);
                 }
             }
-            else if (!String.IsNullOrEmpty(searchByStatus) && String.IsNullOrEmpty(searchByName) && !String.IsNullOrEmpty(searchByInterest) && searchByInterest != "All")
+            else if ((String.IsNullOrEmpty(startDate) || String.IsNullOrEmpty(endDate)) && !String.IsNullOrEmpty(searchByStatus) && String.IsNullOrEmpty(searchByName) && (!String.IsNullOrEmpty(searchByInterest) && searchByInterest != "All"))
             {
-                MemberStatus _searchByStatus = MemberStatus.Active;
+                MemberStatus _searchByStatus = MemberStatus.Yes;
 
-                if (searchByStatus == "Active")
+                if (searchByStatus == "Yes")
                 {
-                    _searchByStatus = MemberStatus.Active;
+                    _searchByStatus = MemberStatus.Yes;
                     consumerRepsByInterest = consumerRepsByInterest.Where(cr => cr.MemberStatus.Value == _searchByStatus);
                 }
-                else if (searchByStatus == "InActive")
+                else if (searchByStatus == "No")
                 {
-                    _searchByStatus = MemberStatus.InActive;
+                    _searchByStatus = MemberStatus.No;
                     consumerRepsByInterest = consumerRepsByInterest.Where(cr => cr.MemberStatus.Value == _searchByStatus);
                 }
             }
-            else if (!String.IsNullOrEmpty(searchByStatus) && !String.IsNullOrEmpty(searchByName) && (String.IsNullOrEmpty(searchByInterest) || searchByInterest == "All"))
+            else if ((String.IsNullOrEmpty(startDate) || String.IsNullOrEmpty(endDate)) && !String.IsNullOrEmpty(searchByStatus) && !String.IsNullOrEmpty(searchByName) && (String.IsNullOrEmpty(searchByInterest) || searchByInterest == "All"))
             {
-                MemberStatus _searchByStatus = MemberStatus.Active;
+                MemberStatus _searchByStatus = MemberStatus.Yes;
 
-                if (searchByStatus == "Active")
+                if (searchByStatus == "Yes")
                 {
-                    _searchByStatus = MemberStatus.Active;
+                    _searchByStatus = MemberStatus.Yes;
                     consumerRepsByName = consumerRepsByName.Where(cr => cr.MemberStatus.Value == _searchByStatus);
                 }
-                else if (searchByStatus == "InActive")
+                else if (searchByStatus == "No")
                 {
-                    _searchByStatus = MemberStatus.InActive;
+                    _searchByStatus = MemberStatus.No;
                     consumerRepsByName = consumerRepsByName.Where(cr => cr.MemberStatus.Value == _searchByStatus);
                 }
             }
             else
             { 
-                MemberStatus _searchByStatus = MemberStatus.Active;
+                MemberStatus _searchByStatus = MemberStatus.Yes;
 
-                if (searchByStatus == "Active")
+                if (searchByStatus == "Yes")
                 {
-                    _searchByStatus = MemberStatus.Active;
+                    _searchByStatus = MemberStatus.Yes;
                     consumerReps = consumerReps.Where(cr => cr.MemberStatus.Value == _searchByStatus);
                 }
-                else if (searchByStatus == "InActive")
+                else if (searchByStatus == "No")
                 {
-                    _searchByStatus = MemberStatus.InActive;
+                    _searchByStatus = MemberStatus.No;
                     consumerReps = consumerReps.Where(cr => cr.MemberStatus.Value == _searchByStatus);
                 }
             }
             #endregion
 
-            if (!String.IsNullOrEmpty(searchByStatus) && !String.IsNullOrEmpty(searchByName) && !String.IsNullOrEmpty(searchByInterest) && searchByInterest != "All")
+            if ((!String.IsNullOrEmpty(startDate) || !String.IsNullOrEmpty(endDate)) && !String.IsNullOrEmpty(searchByStatus) && !String.IsNullOrEmpty(searchByName) && (!String.IsNullOrEmpty(searchByInterest) && searchByInterest != "All"))
+            {
+                consumerRepsByDateTrainedByInterestByName = utils_ConRep.ComsumerReps_SortIndex(sortOrder, consumerRepsByDateTrainedByInterestByName);
+                return View(await consumerRepsByDateTrainedByInterestByName.ToListAsync());
+            }
+            else if ((!String.IsNullOrEmpty(startDate) || !String.IsNullOrEmpty(endDate)) && !String.IsNullOrEmpty(searchByStatus) && String.IsNullOrEmpty(searchByName) && (!String.IsNullOrEmpty(searchByInterest) && searchByInterest != "All"))
+            {
+                consumerRepsByDateTrainedByInterest = utils_ConRep.ComsumerReps_SortIndex(sortOrder, consumerRepsByDateTrainedByInterest);
+                return View(await consumerRepsByDateTrainedByInterest.ToListAsync());
+            }
+            else if ((!String.IsNullOrEmpty(startDate) || !String.IsNullOrEmpty(endDate)) && !String.IsNullOrEmpty(searchByStatus) && !String.IsNullOrEmpty(searchByName) && (String.IsNullOrEmpty(searchByInterest) || searchByInterest == "All"))
+            {
+                consumerRepsByDateTrainedByName = utils_ConRep.ComsumerReps_SortIndex(sortOrder, consumerRepsByDateTrainedByName);
+                return View(await consumerRepsByDateTrainedByName.ToListAsync());
+            }
+            else if ((!String.IsNullOrEmpty(startDate) || !String.IsNullOrEmpty(endDate)) && !String.IsNullOrEmpty(searchByStatus) && String.IsNullOrEmpty(searchByName) && (String.IsNullOrEmpty(searchByInterest) || searchByInterest == "All"))
+            {
+                consumerRepsByDateTrained = utils_ConRep.ComsumerReps_SortIndex(sortOrder, consumerRepsByDateTrained);
+                return View(await consumerRepsByDateTrained.ToListAsync());
+            }
+            else if ((String.IsNullOrEmpty(startDate) || String.IsNullOrEmpty(endDate)) && !String.IsNullOrEmpty(searchByStatus) && !String.IsNullOrEmpty(searchByName) && (!String.IsNullOrEmpty(searchByInterest) && searchByInterest != "All"))
             {
                 consumerRepsByInterestByName = utils_ConRep.ComsumerReps_SortIndex(sortOrder, consumerRepsByInterestByName);
                 return View(await consumerRepsByInterestByName.ToListAsync());
             }
-            else if (!String.IsNullOrEmpty(searchByStatus) && String.IsNullOrEmpty(searchByName) && !String.IsNullOrEmpty(searchByInterest) && searchByInterest != "All")
+            else if ((String.IsNullOrEmpty(startDate) || String.IsNullOrEmpty(endDate)) && !String.IsNullOrEmpty(searchByStatus) && String.IsNullOrEmpty(searchByName) && (!String.IsNullOrEmpty(searchByInterest) && searchByInterest != "All"))
             {
                 consumerRepsByInterest = utils_ConRep.ComsumerReps_SortIndex(sortOrder, consumerRepsByInterest);
                 return View(await consumerRepsByInterest.ToListAsync());
             }
-            else if (!String.IsNullOrEmpty(searchByStatus) && !String.IsNullOrEmpty(searchByName) && (String.IsNullOrEmpty(searchByInterest) || searchByInterest == "All"))
-            { 
+            else if ((String.IsNullOrEmpty(startDate) || String.IsNullOrEmpty(endDate)) && !String.IsNullOrEmpty(searchByStatus) && !String.IsNullOrEmpty(searchByName) && (String.IsNullOrEmpty(searchByInterest) || searchByInterest == "All"))
+            {
                 consumerRepsByName = utils_ConRep.ComsumerReps_SortIndex(sortOrder, consumerRepsByName);
                 return View(await consumerRepsByName.ToListAsync());
             }
@@ -169,7 +407,7 @@ namespace HCCADBWebAppPrototype1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include="FirstName,LastName,Address,PhoneNumber,Email,MemberStatus,DateTrained")] ConsumerRepModel consumerrepmodel)
+        public async Task<ActionResult> Create([Bind(Include="FirstName,LastName,MemberStatus,DateTrained")] ConsumerRepModel consumerrepmodel)
         {
             try
             {

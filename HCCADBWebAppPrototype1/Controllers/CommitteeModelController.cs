@@ -1,14 +1,19 @@
-﻿using System;
+﻿using HCCADBWebAppPrototype1.BusinessLogic;
+using HCCADBWebAppPrototype1.DAL;
+using HCCADBWebAppPrototype1.Models;
+using HCCADBWebAppPrototype1.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.SqlServer;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using HCCADBWebAppPrototype1.Models;
-using HCCADBWebAppPrototype1.DAL;
+
 
 namespace HCCADBWebAppPrototype1.Controllers
 {
@@ -16,9 +21,76 @@ namespace HCCADBWebAppPrototype1.Controllers
     {
         private HCCADatabaseContext db = new HCCADatabaseContext();
 
+        private Util_CommitteeModelController utils_Committees = new Util_CommitteeModelController();
+
         // GET: /CommitteeModel/
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string searchByStatus)
         {
+            if (String.IsNullOrEmpty(searchByStatus))
+            {
+                searchByStatus = "Current"; 
+            }
+
+            List<string> CommitteeStatuses = new List<string>();
+            CommitteeStatuses.Add("Current");
+            CommitteeStatuses.Add("Past");
+            CommitteeStatuses.Add("All");
+            ViewBag.CommitteeStatuses = new SelectList(CommitteeStatuses);
+
+            DateTime currentDate = DateTime.Today;
+
+            DateTime Start = new DateTime(currentDate.Year, 1, 1);
+            DateTime MiddleStart = new DateTime(currentDate.Year, 6, 30);
+            DateTime MiddleEnd = new DateTime(currentDate.Year, 7, 1);
+            DateTime End = new DateTime(currentDate.Year, 12, 31);
+
+            if (searchByStatus == "Current")
+            {
+                if (currentDate >= Start && currentDate <= MiddleStart)
+                { 
+                    var currentCommittees = from com in db.Committees
+                        from joinComHist in db.ConsumerRepCommitteeHistory
+                        where com.CommitteeModelID == joinComHist.CommitteeModelID
+                        where joinComHist.EndorsementDate < MiddleEnd && (joinComHist.EndorsementDate > Start || joinComHist.EndorsementDate == Start)
+                        select com;
+
+                    return View(await currentCommittees.ToListAsync());
+                }
+                else if (currentDate >= MiddleEnd && currentDate <= End)
+                { 
+                    var currentCommittees = from com in db.Committees
+                            from joinComHist in db.ConsumerRepCommitteeHistory
+                            where com.CommitteeModelID == joinComHist.CommitteeModelID
+                            where joinComHist.EndorsementDate > MiddleStart && (joinComHist.EndorsementDate < End || joinComHist.EndorsementDate == End)
+                            select com;
+
+                    return View(await currentCommittees.ToListAsync());
+                }
+            }
+            else if (searchByStatus == "Past")
+            { 
+                if (currentDate >= Start && currentDate <= MiddleStart)
+                { 
+                    var currentCommittees = from com in db.Committees
+                        from joinComHist in db.ConsumerRepCommitteeHistory
+                        where com.CommitteeModelID == joinComHist.CommitteeModelID
+                        where joinComHist.EndorsementDate < Start 
+                        select com;
+
+                    return View(await currentCommittees.ToListAsync());
+                }
+                else if (currentDate >= MiddleEnd && currentDate <= End)
+                { 
+                    var currentCommittees = from com in db.Committees
+                            from joinComHist in db.ConsumerRepCommitteeHistory
+                            where com.CommitteeModelID == joinComHist.CommitteeModelID
+                            where joinComHist.EndorsementDate < MiddleStart 
+                            select com;
+
+                    return View(await currentCommittees.ToListAsync());
+                }
+
+            }
             return View(await db.Committees.ToListAsync());
         }
 
@@ -48,12 +120,13 @@ namespace HCCADBWebAppPrototype1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include="CommitteeName,CurrentStatus")] CommitteeModel committeemodel)
+        public async Task<ActionResult> Create([Bind(Include="CommitteeName")] CommitteeModel committeemodel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+                    committeemodel.CurrentStatus = CurrentStatus.InActive;
                     db.Committees.Add(committeemodel);
                     await db.SaveChangesAsync();
                     return RedirectToAction("Index");

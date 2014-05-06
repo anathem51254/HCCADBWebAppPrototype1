@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace HCCADBWebAppPrototype1.Models
 {
-    public enum MemberStatus { Active, InActive };
+    public enum MemberStatus { Yes, No };
 
     public class ConsumerRepModel
     {
@@ -20,15 +20,6 @@ namespace HCCADBWebAppPrototype1.Models
 
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
-
-        [Display(Name = "Address")]
-        public string Address { get; set; }
-
-        [Display(Name = "Phone Number")]
-        public int PhoneNumber { get; set; }
-
-        [Display(Name = "Email")]
-        public string Email { get; set; }
 
         [Display(Name = "Member Status")] 
         public MemberStatus? MemberStatus { get; set; }

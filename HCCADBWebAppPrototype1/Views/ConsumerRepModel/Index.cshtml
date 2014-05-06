@@ -16,6 +16,7 @@
         Search By Member Status: @Html.DropDownList("SearchByStatus", (SelectList)ViewBag.MemberStatusTypes)
         Search By Name: @Html.TextBox("SearchByName")
         Search By Interest: @Html.DropDownList("searchByInterest", (SelectList)ViewBag.AreasOfInterest)
+        Search By DateTrained: From @Html.TextBox("startDate") To @Html.TextBox("endDate")
         <input type="submit" value="Search"/>
     </p>
 }
@@ -34,21 +35,6 @@
             @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.NameSortParam })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Address)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        @*<th>
-                @Html.DisplayNameFor(model => model.MemberStatus)
-            </th>*@
-        <th>
-            @Html.ActionLink("Member Status", "Index", new { sortOrder = ViewBag.MemberStatusSortParam })
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.DateTrained)
         </th>
         <th></th>
@@ -62,18 +48,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MemberStatus)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DateTrained)
