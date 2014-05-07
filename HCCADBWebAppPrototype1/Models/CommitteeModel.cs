@@ -9,7 +9,10 @@ using System.Web.Mvc;
 
 namespace HCCADBWebAppPrototype1.Models
 {
-    public enum CurrentStatus { Active, InActive };
+    // active = currently has a consumer rep
+    // inactive = committe has finished or consumer rep resigned
+    // noendorsement = no consumerreps have been assigned
+    public enum CurrentStatus { Active, InActive, NoEndorsement };
 
     public class CommitteeModel
     {

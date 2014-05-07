@@ -219,6 +219,14 @@
     <Compile Include="Migrations\201405051205086_added ReportedDate to committee history model.Designer.cs">
       <DependentUpon>201405051205086_added ReportedDate to committee history model.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201405071028274_updated committtee and consumer rep models.cs" />
+    <Compile Include="Migrations\201405071028274_updated committtee and consumer rep models.Designer.cs">
+      <DependentUpon>201405071028274_updated committtee and consumer rep models.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201405071054096_updated committee model.cs" />
+    <Compile Include="Migrations\201405071054096_updated committee model.Designer.cs">
+      <DependentUpon>201405071054096_updated committee model.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommitteeModel.cs" />
@@ -362,6 +370,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201405051205086_added ReportedDate to committee history model.resx">
       <DependentUpon>201405051205086_added ReportedDate to committee history model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201405071028274_updated committtee and consumer rep models.resx">
+      <DependentUpon>201405071028274_updated committtee and consumer rep models.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201405071054096_updated committee model.resx">
+      <DependentUpon>201405071054096_updated committee model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

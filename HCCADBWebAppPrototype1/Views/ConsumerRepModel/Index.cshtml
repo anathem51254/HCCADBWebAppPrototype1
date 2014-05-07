@@ -1,4 +1,6 @@
-﻿@model IEnumerable<HCCADBWebAppPrototype1.Models.ConsumerRepModel>
+﻿@model HCCADBWebAppPrototype1.ViewModels.ConsumerRepIndexViewModel
+@using PagedList.Mvc;
+<link href="~/content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Index";
@@ -26,7 +28,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.DisplayName("FirstName")
         </th>
         @*<th>
                 @Html.DisplayNameFor(model => model.LastName)
@@ -35,12 +37,12 @@
             @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.NameSortParam })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DateTrained)
+            @Html.DisplayName("Date Trained")
         </th>
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.ConsumerRepModels)
     {
         <tr>
             <td>
@@ -61,4 +63,6 @@
     }
 
 </table>
+Page @(Model.ConsumerRepModels.PageCount < Model.ConsumerRepModels.PageNumber ? 1 : Model.ConsumerRepModels.PageNumber) of @Model.ConsumerRepModels.PageCount
+@Html.PagedListPager(Model.ConsumerRepModels, page => Url.Action("Index", new { page }))
 @Html.ActionLink("Back to Main", "Main", "Main")

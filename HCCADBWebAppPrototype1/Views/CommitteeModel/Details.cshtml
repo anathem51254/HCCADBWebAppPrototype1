@@ -56,10 +56,8 @@
                 <tr>
                     <th>Name</th>
                     <th>Member Status</th>
-                    <th>Phone Number</th>
                     <th>Meeting Time</th>
                     <th>Prep Time</th>
-                    <th>Endorsement Status</th>
                 </tr>
                 @foreach (var item in Model.ConsumerRepsCommitteeHistoryModels)
                 {
@@ -75,9 +73,6 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.PrepTime)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.EndorsementStatus)
                         </td>
                         <td>
                             @Html.ActionLink("Edit", "Edit", "ConsumerRepCommitteeHistory", new { id = item.ConsumerRepCommitteeHistoryModelID }, null) |

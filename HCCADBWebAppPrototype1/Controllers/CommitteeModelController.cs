@@ -24,8 +24,76 @@ namespace HCCADBWebAppPrototype1.Controllers
         private Util_CommitteeModelController utils_Committees = new Util_CommitteeModelController();
 
         // GET: /CommitteeModel/
-        public async Task<ActionResult> Index(string searchByStatus)
+        public async Task<ActionResult> Index(string searchByStatus, string searchByArea)
         {
+            if (String.IsNullOrEmpty(searchByStatus))
+            {
+                searchByStatus = "Current";
+            }
+
+            List<string> CommitteeStatuses = new List<string>();
+            CommitteeStatuses.Add("Current");
+            CommitteeStatuses.Add("Past");
+            CommitteeStatuses.Add("No Endorsements");
+            CommitteeStatuses.Add("All");
+            ViewBag.CommitteeStatuses = new SelectList(CommitteeStatuses);
+
+            List<string> AreasOfHealth = new List<string>();
+            AreasOfHealth.Add("All");
+            foreach (var interest in db.CommitteeAreaOfHealth)
+            {
+                AreasOfHealth.Add(interest.AreaOfHealthName);
+            }
+            ViewBag.AreasOfHealth = new SelectList(AreasOfHealth);
+
+            var committees = from com in db.Committees
+                             select com;
+
+            if (!String.IsNullOrEmpty(searchByArea) && searchByArea != "All")
+            {
+                committees = from com in committees
+                             from joinComInterest in db.CommitteeModel_CommitteeAreaOfHealth
+                             where com.CommitteeModelID == joinComInterest.CommitteeModelID
+                             where joinComInterest.CommitteeAreaOfHealthModel.AreaOfHealthName == searchByArea
+                             select com;
+            }
+
+            if (searchByStatus == "Current")
+            {
+                CurrentStatus status = CurrentStatus.Active;
+
+                committees = from com in committees 
+                             where com.CurrentStatus == status
+                             select com;
+
+                return View(await committees.ToListAsync());
+            }
+            else if (searchByStatus == "Past")
+            {
+                CurrentStatus status = CurrentStatus.InActive;
+
+                committees = from com in committees
+                             where com.CurrentStatus == status
+                             select com;
+
+                return View(await committees.ToListAsync());
+
+            }
+            else if (searchByStatus == "No Endorsements")
+            {
+                CurrentStatus status = CurrentStatus.NoEndorsement;
+
+                committees = from com in committees
+                             where com.CurrentStatus == status
+                             select com;
+
+                return View(await committees.ToListAsync());
+            }
+
+            return View(await committees.ToListAsync());
+
+            #region Old code
+            /*
             if (String.IsNullOrEmpty(searchByStatus))
             {
                 searchByStatus = "Current"; 
@@ -92,6 +160,8 @@ namespace HCCADBWebAppPrototype1.Controllers
 
             }
             return View(await db.Committees.ToListAsync());
+            */
+            #endregion
         }
 
         // GET: /CommitteeModel/Details/5
@@ -126,7 +196,7 @@ namespace HCCADBWebAppPrototype1.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    committeemodel.CurrentStatus = CurrentStatus.InActive;
+                    committeemodel.CurrentStatus = CurrentStatus.NoEndorsement;
                     db.Committees.Add(committeemodel);
                     await db.SaveChangesAsync();
                     return RedirectToAction("Index");

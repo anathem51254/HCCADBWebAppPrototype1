@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace HCCADBWebAppPrototype1.Models
 {
+    public enum EndorsementStatus { Yes, No };
     public enum MemberStatus { Yes, No };
 
     public class ConsumerRepModel
@@ -20,6 +21,9 @@ namespace HCCADBWebAppPrototype1.Models
 
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
+
+        [Display(Name = "Endorsement Status")] 
+        public EndorsementStatus? EndorsementStatus { get; set; }
 
         [Display(Name = "Member Status")] 
         public MemberStatus? MemberStatus { get; set; }

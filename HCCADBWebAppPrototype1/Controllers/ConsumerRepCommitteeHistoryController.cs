@@ -177,7 +177,7 @@ namespace HCCADBWebAppPrototype1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include="ConsumerRepCommitteeHistoryModelID,CommitteeModelID,ConsumerRepModelID,PrepTime,Meetingtime,EndorsementStatus,EndorsementDate,EndorsementType")] ConsumerRepCommitteeHistoryModel consumerrepcommitteehistorymodel)
+        public async Task<ActionResult> Edit([Bind(Include="ConsumerRepCommitteeHistoryModelID,CommitteeModelID,ConsumerRepModelID,PrepTime,Meetingtime,EndorsementStatus,EndorsementDate,FinishedDate,EndorsementType")] ConsumerRepCommitteeHistoryModel consumerrepcommitteehistorymodel)
         {
             try
             {

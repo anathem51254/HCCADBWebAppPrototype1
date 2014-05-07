@@ -10,7 +10,6 @@ using System.Web.Mvc;
 
 namespace HCCADBWebAppPrototype1.Models
 {
-    public enum EndorsementStatus { Active, InActive };
     public enum EndorsementType { Organisational, Standard };
 
     public class ConsumerRepCommitteeHistoryModel
@@ -27,9 +26,9 @@ namespace HCCADBWebAppPrototype1.Models
 
         public DateTime ReportedDate { get; set;  }
 
-        public EndorsementStatus? EndorsementStatus { get; set; }
-
         public DateTime EndorsementDate { get; set; }
+
+        public DateTime? FinishedDate { get; set; }
 
         public EndorsementType? EndorsementType { get; set; }
 

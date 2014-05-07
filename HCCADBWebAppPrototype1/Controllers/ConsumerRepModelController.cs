@@ -13,6 +13,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 
 namespace HCCADBWebAppPrototype1.Controllers
 {
@@ -22,8 +23,11 @@ namespace HCCADBWebAppPrototype1.Controllers
         private HCCADatabaseContext db = new HCCADatabaseContext();
 
         // GET: /ConsumerRepModel/
-        public async Task<ActionResult> Index(string sortOrder, string searchByInterest, string searchByStatus, string searchByName, string startDate, string endDate)
+        public async Task<ActionResult> Index(ConsumerRepIndexViewModel viewModel, string sortOrder, string searchByInterest, string searchByStatus, string searchByName, string startDate, string endDate)
         {
+            int pageSize = 2;                
+            int pageNumber = (viewModel.page ?? 1);
+
             if (String.IsNullOrEmpty(searchByStatus))
             {
                 searchByStatus = "Yes";
@@ -345,40 +349,51 @@ namespace HCCADBWebAppPrototype1.Controllers
             if ((!String.IsNullOrEmpty(startDate) || !String.IsNullOrEmpty(endDate)) && !String.IsNullOrEmpty(searchByStatus) && !String.IsNullOrEmpty(searchByName) && (!String.IsNullOrEmpty(searchByInterest) && searchByInterest != "All"))
             {
                 consumerRepsByDateTrainedByInterestByName = utils_ConRep.ComsumerReps_SortIndex(sortOrder, consumerRepsByDateTrainedByInterestByName);
-                return View(await consumerRepsByDateTrainedByInterestByName.ToListAsync());
+                viewModel.ConsumerRepModels = consumerRepsByDateTrainedByName.ToPagedList(pageNumber, pageSize);
+                return View(viewModel);
             }
             else if ((!String.IsNullOrEmpty(startDate) || !String.IsNullOrEmpty(endDate)) && !String.IsNullOrEmpty(searchByStatus) && String.IsNullOrEmpty(searchByName) && (!String.IsNullOrEmpty(searchByInterest) && searchByInterest != "All"))
             {
                 consumerRepsByDateTrainedByInterest = utils_ConRep.ComsumerReps_SortIndex(sortOrder, consumerRepsByDateTrainedByInterest);
-                return View(await consumerRepsByDateTrainedByInterest.ToListAsync());
+                viewModel.ConsumerRepModels = consumerRepsByDateTrainedByInterest.ToPagedList(pageNumber, pageSize);
+                return View(viewModel);
             }
             else if ((!String.IsNullOrEmpty(startDate) || !String.IsNullOrEmpty(endDate)) && !String.IsNullOrEmpty(searchByStatus) && !String.IsNullOrEmpty(searchByName) && (String.IsNullOrEmpty(searchByInterest) || searchByInterest == "All"))
             {
                 consumerRepsByDateTrainedByName = utils_ConRep.ComsumerReps_SortIndex(sortOrder, consumerRepsByDateTrainedByName);
-                return View(await consumerRepsByDateTrainedByName.ToListAsync());
+                viewModel.ConsumerRepModels = consumerRepsByDateTrainedByName.ToPagedList(pageNumber, pageSize);
+                return View(viewModel);
             }
             else if ((!String.IsNullOrEmpty(startDate) || !String.IsNullOrEmpty(endDate)) && !String.IsNullOrEmpty(searchByStatus) && String.IsNullOrEmpty(searchByName) && (String.IsNullOrEmpty(searchByInterest) || searchByInterest == "All"))
             {
                 consumerRepsByDateTrained = utils_ConRep.ComsumerReps_SortIndex(sortOrder, consumerRepsByDateTrained);
-                return View(await consumerRepsByDateTrained.ToListAsync());
+                viewModel.ConsumerRepModels = consumerRepsByDateTrained.ToPagedList(pageNumber, pageSize);
+                return View(viewModel);
             }
             else if ((String.IsNullOrEmpty(startDate) || String.IsNullOrEmpty(endDate)) && !String.IsNullOrEmpty(searchByStatus) && !String.IsNullOrEmpty(searchByName) && (!String.IsNullOrEmpty(searchByInterest) && searchByInterest != "All"))
             {
                 consumerRepsByInterestByName = utils_ConRep.ComsumerReps_SortIndex(sortOrder, consumerRepsByInterestByName);
-                return View(await consumerRepsByInterestByName.ToListAsync());
+                viewModel.ConsumerRepModels = consumerRepsByInterestByName.ToPagedList(pageNumber, pageSize);
+                return View(viewModel);
             }
             else if ((String.IsNullOrEmpty(startDate) || String.IsNullOrEmpty(endDate)) && !String.IsNullOrEmpty(searchByStatus) && String.IsNullOrEmpty(searchByName) && (!String.IsNullOrEmpty(searchByInterest) && searchByInterest != "All"))
             {
                 consumerRepsByInterest = utils_ConRep.ComsumerReps_SortIndex(sortOrder, consumerRepsByInterest);
-                return View(await consumerRepsByInterest.ToListAsync());
+                viewModel.ConsumerRepModels = consumerRepsByInterest.ToPagedList(pageNumber, pageSize);
+                return View(viewModel);
             }
             else if ((String.IsNullOrEmpty(startDate) || String.IsNullOrEmpty(endDate)) && !String.IsNullOrEmpty(searchByStatus) && !String.IsNullOrEmpty(searchByName) && (String.IsNullOrEmpty(searchByInterest) || searchByInterest == "All"))
             {
                 consumerRepsByName = utils_ConRep.ComsumerReps_SortIndex(sortOrder, consumerRepsByName);
-                return View(await consumerRepsByName.ToListAsync());
+                viewModel.ConsumerRepModels = consumerRepsByName.ToPagedList(pageNumber, pageSize);
+                return View(viewModel);
             }
             else
-                return View(await consumerReps.ToListAsync());
+            {
+                consumerReps = utils_ConRep.ComsumerReps_SortIndex(sortOrder, consumerReps);
+                viewModel.ConsumerRepModels = consumerReps.ToPagedList(pageNumber, pageSize);
+                return View(viewModel);
+            }
         }
 
         // GET: /ConsumerRepModel/Details/5
