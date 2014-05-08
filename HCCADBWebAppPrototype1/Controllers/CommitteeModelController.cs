@@ -34,7 +34,6 @@ namespace HCCADBWebAppPrototype1.Controllers
             List<string> CommitteeStatuses = new List<string>();
             CommitteeStatuses.Add("Current");
             CommitteeStatuses.Add("Past");
-            CommitteeStatuses.Add("No Endorsements");
             CommitteeStatuses.Add("All");
             ViewBag.CommitteeStatuses = new SelectList(CommitteeStatuses);
 
@@ -79,16 +78,7 @@ namespace HCCADBWebAppPrototype1.Controllers
                 return View(await committees.ToListAsync());
 
             }
-            else if (searchByStatus == "No Endorsements")
-            {
-                CurrentStatus status = CurrentStatus.NoEndorsement;
-
-                committees = from com in committees
-                             where com.CurrentStatus == status
-                             select com;
-
-                return View(await committees.ToListAsync());
-            }
+            
 
             return View(await committees.ToListAsync());
 
@@ -196,7 +186,7 @@ namespace HCCADBWebAppPrototype1.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    committeemodel.CurrentStatus = CurrentStatus.NoEndorsement;
+                    committeemodel.CurrentStatus = CurrentStatus.InActive;
                     db.Committees.Add(committeemodel);
                     await db.SaveChangesAsync();
                     return RedirectToAction("Index");

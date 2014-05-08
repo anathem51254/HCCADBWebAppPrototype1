@@ -25,7 +25,7 @@ namespace HCCADBWebAppPrototype1.Controllers
         // GET: /ConsumerRepModel/
         public async Task<ActionResult> Index(ConsumerRepIndexViewModel viewModel, string sortOrder, string searchByInterest, string searchByStatus, string searchByName, string startDate, string endDate)
         {
-            int pageSize = 2;                
+            int pageSize = 5;                
             int pageNumber = (viewModel.page ?? 1);
 
             if (String.IsNullOrEmpty(searchByStatus))
