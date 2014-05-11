@@ -16,11 +16,17 @@ namespace HCCADBWebAppPrototype1.Models
 
     public class CommitteeModel
     {
+        [Display(Name="Committee")]
         public int CommitteeModelID { get; set; }
         
+        [Required]
+        [StringLength(32)]
+        [DataType(DataType.Text)]
         [Display(Name="Committee Name")]
         public string CommitteeName { get; set; }
 
+        [Required]
+        [DataType(DataType.Text)]
         [Display(Name="Status")]
         public CurrentStatus? CurrentStatus { get; set; }
 

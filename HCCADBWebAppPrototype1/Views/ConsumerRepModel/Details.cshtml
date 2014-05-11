@@ -38,6 +38,14 @@
             </dd>
 
             <dt>
+                @Html.DisplayNameFor(model => model.EndorsementStatus)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.EndorsementStatus)
+            </dd>
+
+            <dt>
                 @Html.DisplayNameFor(model => model.DateTrained)
             </dt>
 
@@ -96,7 +104,7 @@
                             @Html.DisplayFor(modelItem => item.PrepTime)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.ConsumerRepCommitteeHistoryModelID }) |
+                            @Html.ActionLink("Edit", "Edit", "ConsumerRepCommitteeHistory", new { id = item.ConsumerRepCommitteeHistoryModelID }, null) |
                         </td>
                     </tr>
                 }

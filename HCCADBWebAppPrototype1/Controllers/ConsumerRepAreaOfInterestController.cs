@@ -42,6 +42,7 @@ namespace HCCADBWebAppPrototype1.Controllers
         // GET: /ConsumerRepAreaOfInterest/Create
         public ActionResult Create()
         {
+            
             return View();
         }
 

@@ -64,6 +64,14 @@ namespace HCCADBWebAppPrototype1.Controllers
                 {
                     consumerrepcommitteehistorymodel.ReportedDate = DateTime.Today;
 
+                    CommitteeModel committee = db.Committees.Find(consumerrepcommitteehistorymodel.CommitteeModelID);
+                    committee.CurrentStatus = CurrentStatus.Active;
+                    db.Entry(committee).State = EntityState.Modified;
+
+                    ConsumerRepModel consumer = db.ConsumerReps.Find(consumerrepcommitteehistorymodel.ConsumerRepModelID);
+                    consumer.EndorsementStatus = EndorsementStatus.Active;
+                    db.Entry(consumer).State = EntityState.Modified;
+
                     db.ConsumerRepCommitteeHistory.Add(consumerrepcommitteehistorymodel);
 
                     await db.SaveChangesAsync();
@@ -102,10 +110,18 @@ namespace HCCADBWebAppPrototype1.Controllers
                 {
                     consumerrepcommitteehistorymodel.ReportedDate = DateTime.Today;
 
+                    CommitteeModel committee = db.Committees.Find(consumerrepcommitteehistorymodel.CommitteeModelID);
+                    committee.CurrentStatus = CurrentStatus.Active;
+                    db.Entry(committee).State = EntityState.Modified;
+
+                    ConsumerRepModel consumer = db.ConsumerReps.Find(consumerrepcommitteehistorymodel.ConsumerRepModelID);
+                    consumer.EndorsementStatus = EndorsementStatus.Active;
+                    db.Entry(consumer).State = EntityState.Modified;
+
                     db.ConsumerRepCommitteeHistory.Add(consumerrepcommitteehistorymodel);
 
                     await db.SaveChangesAsync();
-                    return RedirectToAction("Details/" + consumerrepcommitteehistorymodel.CommitteeModelID);
+                    return RedirectToAction("Details/" + consumerrepcommitteehistorymodel.CommitteeModelID, "CommitteeModel");
                 }
             }
             catch (DataException /* dex */ )

@@ -181,7 +181,6 @@
     <Compile Include="Controllers\ConsumerRepModelController.cs" />
     <Compile Include="Controllers\ConsumerRepModel_ConsumerRepAreaOfInterestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\ReportGenerationController.cs" />
     <Compile Include="DAL\HCCADatabaseContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -227,6 +226,22 @@
     <Compile Include="Migrations\201405071054096_updated committee model.Designer.cs">
       <DependentUpon>201405071054096_updated committee model.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201405111026072_updated model and seed method.cs" />
+    <Compile Include="Migrations\201405111026072_updated model and seed method.Designer.cs">
+      <DependentUpon>201405111026072_updated model and seed method.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201405111135167_updated model valiation.cs" />
+    <Compile Include="Migrations\201405111135167_updated model valiation.Designer.cs">
+      <DependentUpon>201405111135167_updated model valiation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201405111139267_updated model datatypes.cs" />
+    <Compile Include="Migrations\201405111139267_updated model datatypes.Designer.cs">
+      <DependentUpon>201405111139267_updated model datatypes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201405111234395_updated models with datatype validation.cs" />
+    <Compile Include="Migrations\201405111234395_updated models with datatype validation.Designer.cs">
+      <DependentUpon>201405111234395_updated models with datatype validation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommitteeModel.cs" />
@@ -241,6 +256,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AddToInterestConsumerRepViewModel.cs" />
     <Compile Include="ViewModels\ConsumerRepIndexViewModel.cs" />
+    <Compile Include="ViewModels\CreateCommitteeViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ReportGenerationViewModel.cs" />
   </ItemGroup>
@@ -277,8 +293,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
@@ -321,7 +335,6 @@
     <Content Include="Views\ConsumerRepModel_ConsumerRepAreaOfInterest\AddConsumerToInterest.cshtml" />
     <Content Include="Views\ReportGeneration.cshtml" />
     <Content Include="Views\ReportGeneration\GenerateReport.cshtml" />
-    <Content Include="Views\Main\Main.cshtml" />
     <Content Include="Views\ConsumerRepCommitteeHistory\AddConsumer.cshtml" />
     <Content Include="Views\CommitteeModel_CommitteeAreaOfHealthModel\Create.cshtml" />
     <Content Include="Views\CommitteeModel_CommitteeAreaOfHealthModel\Delete.cshtml" />
@@ -335,6 +348,8 @@
     <Content Include="Views\CommitteeAreaOfHealthModel\Edit.cshtml" />
     <Content Include="Views\CommitteeAreaOfHealthModel\Index.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
+    <Content Include="Views\CommitteeModel\SetInActive.cshtml" />
+    <Content Include="Scripts\jquery.validate.custom.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -376,6 +391,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201405071054096_updated committee model.resx">
       <DependentUpon>201405071054096_updated committee model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201405111026072_updated model and seed method.resx">
+      <DependentUpon>201405111026072_updated model and seed method.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201405111135167_updated model valiation.resx">
+      <DependentUpon>201405111135167_updated model valiation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201405111139267_updated model datatypes.resx">
+      <DependentUpon>201405111139267_updated model datatypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201405111234395_updated models with datatype validation.resx">
+      <DependentUpon>201405111234395_updated models with datatype validation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

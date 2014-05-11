@@ -17,13 +17,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("HCCA DB App", "Index", "Home", null, new { @class = "navbar-brand" })
+                @Html.ActionLink("Main", "Index", "Home", null, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Consumer Representatives", "Index", "ConsumerRepModel")</li>
                     <li>@Html.ActionLink("Committees", "Index", "CommitteeModel")</li>
-                    <li>@Html.ActionLink("Area Of Interest", "Index", "ConsumerRepAreaOfInterest")</li>
+                    <li>@Html.ActionLink("Areas Of Interest", "Index", "ConsumerRepAreaOfInterest")</li>
+                    <li>@Html.ActionLink("Areas Of Health", "Index", "CommitteeAreaOfHealthModel")</li>
                 </ul>
                 @*@Html.Partial("_LoginPartial")*@
             </div>

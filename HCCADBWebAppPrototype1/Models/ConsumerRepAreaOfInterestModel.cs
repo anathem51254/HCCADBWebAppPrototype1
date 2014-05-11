@@ -13,6 +13,10 @@ namespace HCCADBWebAppPrototype1.Models
     {
         public int ConsumerRepAreaOfInterestModelID { get; set; }
 
+        [Required]
+        [StringLength(64)]
+        [DataType(DataType.Text)]
+        [Display(Name = "Area Of Interest Name")]
         public string AreaOfInterestName { get; set; }
 
         public virtual ICollection<ConsumerRepModel_ConsumerRepAreaOfInterestModel> ConsumerRepModel_ConsumerRepAreaOfInterestModel { get; set; }

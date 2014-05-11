@@ -11,10 +11,13 @@ namespace HCCADBWebAppPrototype1.Models
 {
     public class CommitteeModel_CommitteeAreaOfHealthModel
     {
+        [Display(Name="Committee Area Of Health")]
         public int CommitteeModel_CommitteeAreaOfHealthModelID { get; set; }
 
+        [Display(Name="Committee")]
         public int CommitteeModelID { get; set; }
 
+        [Display(Name="Committee Area Of Health")]
         public int CommitteeAreaOfHealthModelID { get; set; }
 
         public virtual CommitteeModel CommitteeModel { get; set; }

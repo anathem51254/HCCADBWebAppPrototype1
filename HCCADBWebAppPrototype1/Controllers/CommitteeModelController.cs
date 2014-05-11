@@ -172,7 +172,16 @@ namespace HCCADBWebAppPrototype1.Controllers
         // GET: /CommitteeModel/Create
         public ActionResult Create()
         {
-            return View();
+            var vm = new CreateCommitteeViewModel
+            {
+                NewCommitteeModel = new CommitteeModel(),
+                NewConsumerRepCommitteeHistoryModel = new ConsumerRepCommitteeHistoryModel(),
+                NewCommitteeAreaOfHealthModel = new CommitteeModel_CommitteeAreaOfHealthModel(),
+                ConsumerRepsID = new SelectList(db.ConsumerReps, "ConsumerRepModelID", "LastName"),
+                CommitteeAreasOfHealthID = new SelectList(db.CommitteeAreaOfHealth, "CommitteeAreaOfHealthModelID", "AreaOfHealthName")
+            };
+
+            return View(vm);
         }
 
         // POST: /CommitteeModel/Create
@@ -180,15 +189,29 @@ namespace HCCADBWebAppPrototype1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include="CommitteeName")] CommitteeModel committeemodel)
+        public async Task<ActionResult> Create(CreateCommitteeViewModel vm)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    committeemodel.CurrentStatus = CurrentStatus.InActive;
-                    db.Committees.Add(committeemodel);
-                    await db.SaveChangesAsync();
+                    vm.NewCommitteeModel.CurrentStatus = CurrentStatus.Active;
+                    db.Committees.Add(vm.NewCommitteeModel);
+
+                    vm.NewConsumerRepCommitteeHistoryModel.ReportedDate = DateTime.Today;
+
+                    vm.NewConsumerRepCommitteeHistoryModel.CommitteeModelID = vm.NewCommitteeModel.CommitteeModelID;
+                    db.ConsumerRepCommitteeHistory.Add(vm.NewConsumerRepCommitteeHistoryModel);
+
+                    vm.NewCommitteeAreaOfHealthModel.CommitteeModelID = vm.NewCommitteeModel.CommitteeModelID;
+                    db.CommitteeModel_CommitteeAreaOfHealth.Add(vm.NewCommitteeAreaOfHealthModel);
+
+                    ConsumerRepModel consumer = db.ConsumerReps.Find(vm.NewConsumerRepCommitteeHistoryModel.ConsumerRepModelID);
+                    consumer.EndorsementStatus = EndorsementStatus.Active;
+                    db.Entry(consumer).State = EntityState.Modified;
+
+                    db.SaveChanges();
+
                     return RedirectToAction("Index");
                 }
             }
@@ -198,7 +221,16 @@ namespace HCCADBWebAppPrototype1.Controllers
                 ModelState.AddModelError("", "Unable to save the chances. Please try again.");
             }
 
-            return View(committeemodel);
+            vm = new CreateCommitteeViewModel
+            {
+                NewCommitteeModel = new CommitteeModel(),
+                NewConsumerRepCommitteeHistoryModel = new ConsumerRepCommitteeHistoryModel(),
+                NewCommitteeAreaOfHealthModel = new CommitteeModel_CommitteeAreaOfHealthModel(),
+                ConsumerRepsID = new SelectList(db.ConsumerReps, "ConsumerRepModelID", "LastName"),
+                CommitteeAreasOfHealthID = new SelectList(db.CommitteeAreaOfHealth, "CommitteeAreaOfHealthModelID", "AreaOfHealthName")
+            };
+
+            return View(vm);
         }
 
         // GET: /CommitteeModel/Edit/5
@@ -240,6 +272,64 @@ namespace HCCADBWebAppPrototype1.Controllers
 
             return View(committeemodel);
         }
+
+        // GET: /CommitteeModel/Edit/5
+        public async Task<ActionResult> SetInActive(int? id, bool? saveChangesError = false)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewBag.ErrorMessage = "Couldnt set to InActive. Please try again";
+            }
+            CommitteeModel committeemodel = await db.Committees.FindAsync(id);
+            if (committeemodel == null)
+            {
+                return HttpNotFound();
+            }
+            return View(committeemodel);
+        }
+
+        // POST: /CommitteeModel/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SetInActive(int id)
+        {
+            try
+            {
+                CommitteeModel committeemodel = await db.Committees.FindAsync(id);
+                committeemodel.CurrentStatus = CurrentStatus.InActive;
+                db.Entry(committeemodel).State = EntityState.Modified;
+
+                var committeehistory = from comHistory in db.ConsumerRepCommitteeHistory
+                                       where comHistory.CommitteeModelID == committeemodel.CommitteeModelID 
+                                       select comHistory;
+
+
+                foreach (var comHistory in committeehistory)
+                { 
+                    comHistory.FinishedDate = DateTime.Today;
+                    db.Entry(comHistory).State = EntityState.Modified;
+
+                    ConsumerRepModel consumerRep = db.ConsumerReps.Find(comHistory.ConsumerRepModelID);
+                    consumerRep.EndorsementStatus = EndorsementStatus.InActive;
+                    db.Entry(consumerRep).State = EntityState.Modified;
+                }
+
+                await db.SaveChangesAsync();
+
+            }
+            catch (DataException /* dex */)
+            {
+                return RedirectToAction("SetInActive", new { id = id, saveChancesError = true });
+            }
+            return RedirectToAction("Index");
+        }
+
 
         // GET: /CommitteeModel/Delete/5
         public async Task<ActionResult> Delete(int? id, bool? saveChangesError=false)

@@ -13,8 +13,8 @@
 @using (Html.BeginForm())
 {
     <p>
-        Committee Status: @Html.DropDownList("searchByStatus", (SelectList)ViewBag.CommitteeStatuses)
-        Committee Area: @Html.DropDownList("searchByArea", (SelectList)ViewBag.AreasOfHealth)
+        Committee Status: @Html.DropDownList("searchByStatus", (SelectList)ViewBag.CommitteeStatuses) |
+        Committee Area: @Html.DropDownList("searchByArea", (SelectList)ViewBag.AreasOfHealth) |
         <input type="submit" value="Search" />
     </p>
 }
@@ -35,6 +35,7 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.CommitteeModelID }) |
                 @Html.ActionLink("Details", "Details", new { id = item.CommitteeModelID }) |
+                @Html.ActionLink("Set InActive", "SetInActive", new { id = item.CommitteeModelID }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.CommitteeModelID })
             </td>
         </tr>

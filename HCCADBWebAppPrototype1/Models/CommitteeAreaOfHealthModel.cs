@@ -13,6 +13,10 @@ namespace HCCADBWebAppPrototype1.Models
     {
         public int CommitteeAreaOfHealthModelID { get; set; }
 
+        [Required]
+        [StringLength(64)]
+        [DataType(DataType.Text)]
+        [Display(Name="Area Of Health")]
         public string AreaOfHealthName { get; set; }
 
         public virtual ICollection<CommitteeModel_CommitteeAreaOfHealthModel> CommitteeModel_CommitteeAreaOfHealthModels { get; set; }
