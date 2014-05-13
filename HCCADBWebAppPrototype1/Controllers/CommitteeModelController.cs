@@ -13,7 +13,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-
+using PagedList;
 
 namespace HCCADBWebAppPrototype1.Controllers
 {
@@ -24,8 +24,12 @@ namespace HCCADBWebAppPrototype1.Controllers
         private Util_CommitteeModelController utils_Committees = new Util_CommitteeModelController();
 
         // GET: /CommitteeModel/
-        public async Task<ActionResult> Index(string searchByStatus, string searchByArea)
+        public ActionResult Index(CommitteeIndexViewModel viewModel, string searchByStatus, string searchByArea)
         {
+
+            int pageSize = 20;
+            int pageNumber = (viewModel.page ?? 1);
+
             if (String.IsNullOrEmpty(searchByStatus))
             {
                 searchByStatus = "Current";
@@ -59,28 +63,34 @@ namespace HCCADBWebAppPrototype1.Controllers
 
             if (searchByStatus == "Current")
             {
-                CurrentStatus status = CurrentStatus.Active;
+                CurrentStatus status = CurrentStatus.Current;
 
                 committees = from com in committees 
                              where com.CurrentStatus == status
                              select com;
 
-                return View(await committees.ToListAsync());
+                committees = committees.OrderBy(cr => cr.CommitteeName);
+                viewModel.CommitteeModels = committees.ToPagedList(pageNumber, pageSize);
+                return View(viewModel);
             }
             else if (searchByStatus == "Past")
             {
-                CurrentStatus status = CurrentStatus.InActive;
+                CurrentStatus status = CurrentStatus.Past;
 
                 committees = from com in committees
                              where com.CurrentStatus == status
                              select com;
 
-                return View(await committees.ToListAsync());
+                committees = committees.OrderBy(cr => cr.CommitteeName);
+                viewModel.CommitteeModels = committees.ToPagedList(pageNumber, pageSize);
+                return View(viewModel); ;
 
             }
-            
 
-            return View(await committees.ToListAsync());
+
+            committees = committees.OrderBy(cr => cr.CommitteeName);
+            viewModel.CommitteeModels = committees.ToPagedList(pageNumber, pageSize);
+            return View(viewModel);
 
             #region Old code
             /*
@@ -177,7 +187,7 @@ namespace HCCADBWebAppPrototype1.Controllers
                 NewCommitteeModel = new CommitteeModel(),
                 NewConsumerRepCommitteeHistoryModel = new ConsumerRepCommitteeHistoryModel(),
                 NewCommitteeAreaOfHealthModel = new CommitteeModel_CommitteeAreaOfHealthModel(),
-                ConsumerRepsID = new SelectList(db.ConsumerReps, "ConsumerRepModelID", "LastName"),
+                ConsumerRepsID = new SelectList(db.ConsumerReps, "ConsumerRepModelID", "FullName"),
                 CommitteeAreasOfHealthID = new SelectList(db.CommitteeAreaOfHealth, "CommitteeAreaOfHealthModelID", "AreaOfHealthName")
             };
 
@@ -189,13 +199,13 @@ namespace HCCADBWebAppPrototype1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CreateCommitteeViewModel vm)
+        public ActionResult Create(CreateCommitteeViewModel vm)
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    vm.NewCommitteeModel.CurrentStatus = CurrentStatus.Active;
+                //if (ModelState.IsValid)
+                //{
+                    vm.NewCommitteeModel.CurrentStatus = CurrentStatus.Current;
                     db.Committees.Add(vm.NewCommitteeModel);
 
                     vm.NewConsumerRepCommitteeHistoryModel.ReportedDate = DateTime.Today;
@@ -213,7 +223,7 @@ namespace HCCADBWebAppPrototype1.Controllers
                     db.SaveChanges();
 
                     return RedirectToAction("Index");
-                }
+                //}
             }
             catch(DataException /* dex */)
             {
@@ -226,13 +236,44 @@ namespace HCCADBWebAppPrototype1.Controllers
                 NewCommitteeModel = new CommitteeModel(),
                 NewConsumerRepCommitteeHistoryModel = new ConsumerRepCommitteeHistoryModel(),
                 NewCommitteeAreaOfHealthModel = new CommitteeModel_CommitteeAreaOfHealthModel(),
-                ConsumerRepsID = new SelectList(db.ConsumerReps, "ConsumerRepModelID", "LastName"),
+                ConsumerRepsID = new SelectList(db.ConsumerReps, "ConsumerRepModelID", "FullName"),
                 CommitteeAreasOfHealthID = new SelectList(db.CommitteeAreaOfHealth, "CommitteeAreaOfHealthModelID", "AreaOfHealthName")
             };
 
             return View(vm);
         }
+        // GET: /CommitteeModel/Create
+        public ActionResult CreateStandalone()
+        {
+            return View();
+        }
 
+        // POST: /CommitteeModel/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateStandalone([Bind(Include="CommitteeName,CurrentStatus")] CommitteeModel committee)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+
+                    db.Committees.Add(committee);
+                    db.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (DataException /* dex */)
+            {
+                // Log the error
+                ModelState.AddModelError("", "Unable to save the chances. Please try again.");
+            }
+
+            return View(committee);
+        }
         // GET: /CommitteeModel/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
@@ -302,7 +343,7 @@ namespace HCCADBWebAppPrototype1.Controllers
             try
             {
                 CommitteeModel committeemodel = await db.Committees.FindAsync(id);
-                committeemodel.CurrentStatus = CurrentStatus.InActive;
+                committeemodel.CurrentStatus = CurrentStatus.Past;
                 db.Entry(committeemodel).State = EntityState.Modified;
 
                 var committeehistory = from comHistory in db.ConsumerRepCommitteeHistory

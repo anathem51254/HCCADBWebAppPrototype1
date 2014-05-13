@@ -181,11 +181,12 @@
     <Compile Include="Controllers\ConsumerRepModelController.cs" />
     <Compile Include="Controllers\ConsumerRepModel_ConsumerRepAreaOfInterestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ReportGenerationController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="DAL\HCCADatabaseContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Migrations\201404231208435_Initial.cs" />
     <Compile Include="Migrations\201404231208435_Initial.Designer.cs">
       <DependentUpon>201404231208435_Initial.cs</DependentUpon>
@@ -242,6 +243,14 @@
     <Compile Include="Migrations\201405111234395_updated models with datatype validation.Designer.cs">
       <DependentUpon>201405111234395_updated models with datatype validation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201405121148577_updated dates.cs" />
+    <Compile Include="Migrations\201405121148577_updated dates.Designer.cs">
+      <DependentUpon>201405121148577_updated dates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201405121152427_sdasd.cs" />
+    <Compile Include="Migrations\201405121152427_sdasd.Designer.cs">
+      <DependentUpon>201405121152427_sdasd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommitteeModel.cs" />
@@ -255,8 +264,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AddToInterestConsumerRepViewModel.cs" />
+    <Compile Include="ViewModels\CommitteeIndexViewModel.cs" />
     <Compile Include="ViewModels\ConsumerRepIndexViewModel.cs" />
     <Compile Include="ViewModels\CreateCommitteeViewModel.cs" />
+    <Compile Include="ViewModels\EditConsumeRepViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ReportGenerationViewModel.cs" />
   </ItemGroup>
@@ -270,6 +281,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="App_Data\Templates\template.docx" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -334,7 +346,6 @@
     <Content Include="Views\ConsumerRepModel_ConsumerRepAreaOfInterest\Index.cshtml" />
     <Content Include="Views\ConsumerRepModel_ConsumerRepAreaOfInterest\AddConsumerToInterest.cshtml" />
     <Content Include="Views\ReportGeneration.cshtml" />
-    <Content Include="Views\ReportGeneration\GenerateReport.cshtml" />
     <Content Include="Views\ConsumerRepCommitteeHistory\AddConsumer.cshtml" />
     <Content Include="Views\CommitteeModel_CommitteeAreaOfHealthModel\Create.cshtml" />
     <Content Include="Views\CommitteeModel_CommitteeAreaOfHealthModel\Delete.cshtml" />
@@ -350,9 +361,13 @@
     <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
     <Content Include="Views\CommitteeModel\SetInActive.cshtml" />
     <Content Include="Scripts\jquery.validate.custom.js" />
+    <Content Include="Views\Report\Generate.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\CommitteeModel\CreateStandalone.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\Downloads\" />
+    <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -403,6 +418,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201405111234395_updated models with datatype validation.resx">
       <DependentUpon>201405111234395_updated models with datatype validation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201405121148577_updated dates.resx">
+      <DependentUpon>201405121148577_updated dates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201405121152427_sdasd.resx">
+      <DependentUpon>201405121152427_sdasd.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -23,13 +23,13 @@ namespace HCCADBWebAppPrototype1.Controllers
         private HCCADatabaseContext db = new HCCADatabaseContext();
 
         // GET: /ConsumerRepModel/
-        public async Task<ActionResult> Index(ConsumerRepIndexViewModel viewModel, string sortOrder, string searchByInterest, string searchByStatus, string searchByEndorseStatus, string searchByName, string startDate, string endDate, string search, string reset)
+        public ActionResult Index(ConsumerRepIndexViewModel viewModel, string sortOrder, string searchByInterest, string searchByStatus, string searchByEndorseStatus, string searchByName, string startDate, string endDate, string search, string reset)
         {
             if (!String.IsNullOrEmpty(search))
             {
                 try
                 {
-                    int pageSize = 5;
+                    int pageSize = 20;
                     int pageNumber = (viewModel.page ?? 1);
 
                     if (String.IsNullOrEmpty(searchByStatus))
@@ -411,9 +411,9 @@ namespace HCCADBWebAppPrototype1.Controllers
                         return View(viewModel);
                     }
                 }
-                catch (Exception ex)
+                catch (Exception /*ex*/)
                 {
-                    int pageSize = 5;
+                    int pageSize = 20;
                     int pageNumber = (viewModel.page ?? 1);
 
                     if (String.IsNullOrEmpty(searchByStatus))
@@ -463,7 +463,7 @@ namespace HCCADBWebAppPrototype1.Controllers
             {
                 viewModel = new ConsumerRepIndexViewModel();
 
-                int pageSize = 5;
+                int pageSize = 20;
                 int pageNumber = (viewModel.page ?? 1);
 
 
@@ -576,38 +576,6 @@ namespace HCCADBWebAppPrototype1.Controllers
             return View(vm);
         }
 
-        // POST: /ConsumerRepModel/AddToInterest
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddToInterest(AddToInterestConsumerRepViewModel vm)
-        {
-            /*vm.ConsumerRepModel.ConsumerRepAreasOfInterestModels.Add(vm.ConsumerRepAreaOfInterestModel);
-
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    db.Entry(vm.ConsumerRepModel).State = EntityState.Modified;
-                    await db.SaveChangesAsync();
-                    return RedirectToAction("Details/" + vm.ConsumerRepModel.ConsumerRepModelID, "ConsumerRepModel");
-                }
-            }
-            catch (DataException /* dex *///)
-            //{
-                // Log the error here with dex var
-                /*
-                ModelState.AddModelError("", "Unable to save changes. Please try again.");
-            }
-
-            ViewBag.CommitteeModelID = new SelectList(db.Committees, "CommitteeModelID", "CommitteeName");
-            ViewBag.ConsumerRepModelID = vm.ConsumerRepModel.ConsumerRepModelID;
-            */
-            return View();
-        } 
-
-
         // GET: /ConsumerRepModel/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
@@ -620,6 +588,7 @@ namespace HCCADBWebAppPrototype1.Controllers
             {
                 return HttpNotFound();
             }
+
             return View(consumerrepmodel);
         }
 
@@ -628,7 +597,7 @@ namespace HCCADBWebAppPrototype1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include="ConsumerRepModelID,FirstName,LastName,Address,PhoneNumber,Email,MemberStatus,DateTrained")] ConsumerRepModel consumerrepmodel)
+        public async Task<ActionResult> Edit([Bind(Include="ConsumerRepModelID,FirstName,LastName,MemberStatus,EndorsementStatus,DateTrained")] ConsumerRepModel consumerrepmodel)
         {
             try
             {

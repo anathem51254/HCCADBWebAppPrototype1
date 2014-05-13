@@ -13,7 +13,7 @@
         <hr />
         <h4>Details</h4>
         <dl class="dl-horizontal">
-            <dt>
+            @*<dt>
                 @Html.DisplayNameFor(model => model.FirstName)
             </dt>
 
@@ -27,8 +27,13 @@
 
             <dd>
                 @Html.DisplayFor(model => model.LastName)
+            </dd>*@
+            <dt>
+                @Html.DisplayName("Name")
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FullName)
             </dd>
-
             <dt>
                 @Html.DisplayNameFor(model => model.MemberStatus)
             </dt>
@@ -119,5 +124,5 @@
     @Html.ActionLink("Add To Committee", "AddToCommittee", "ConsumerRepCommitteeHistory", new { id = Model.ConsumerRepModelID }, null) |
     @Html.ActionLink("Add To Interest", "AddConsumerToInterest", "ConsumerRepModel_ConsumerRepAreaOfInterest", new { id = Model.ConsumerRepModelID }, null) |
     @Html.ActionLink("Back to List", "Index") |
-    @Html.ActionLink("Back to Main", "Main", "Main")
+    @Html.ActionLink("Back to Main", "Index", "Home")
 </p>

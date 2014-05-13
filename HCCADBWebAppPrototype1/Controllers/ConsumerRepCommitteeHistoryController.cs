@@ -65,7 +65,7 @@ namespace HCCADBWebAppPrototype1.Controllers
                     consumerrepcommitteehistorymodel.ReportedDate = DateTime.Today;
 
                     CommitteeModel committee = db.Committees.Find(consumerrepcommitteehistorymodel.CommitteeModelID);
-                    committee.CurrentStatus = CurrentStatus.Active;
+                    committee.CurrentStatus = CurrentStatus.Current;
                     db.Entry(committee).State = EntityState.Modified;
 
                     ConsumerRepModel consumer = db.ConsumerReps.Find(consumerrepcommitteehistorymodel.ConsumerRepModelID);
@@ -111,7 +111,7 @@ namespace HCCADBWebAppPrototype1.Controllers
                     consumerrepcommitteehistorymodel.ReportedDate = DateTime.Today;
 
                     CommitteeModel committee = db.Committees.Find(consumerrepcommitteehistorymodel.CommitteeModelID);
-                    committee.CurrentStatus = CurrentStatus.Active;
+                    committee.CurrentStatus = CurrentStatus.Current;
                     db.Entry(committee).State = EntityState.Modified;
 
                     ConsumerRepModel consumer = db.ConsumerReps.Find(consumerrepcommitteehistorymodel.ConsumerRepModelID);
@@ -193,12 +193,13 @@ namespace HCCADBWebAppPrototype1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include="ConsumerRepCommitteeHistoryModelID,CommitteeModelID,ConsumerRepModelID,PrepTime,Meetingtime,EndorsementStatus,EndorsementDate,FinishedDate,EndorsementType")] ConsumerRepCommitteeHistoryModel consumerrepcommitteehistorymodel)
+        public async Task<ActionResult> Edit([Bind(Include="ConsumerRepCommitteeHistoryModelID,CommitteeModelID,ConsumerRepModelID,PrepTime,Meetingtime,ReportedDate,EndorsementDate,EndorsementType")] ConsumerRepCommitteeHistoryModel consumerrepcommitteehistorymodel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+                    consumerrepcommitteehistorymodel.FinishedDate = null;
                     db.Entry(consumerrepcommitteehistorymodel).State = EntityState.Modified;
                     await db.SaveChangesAsync();
                     return RedirectToAction("Index");

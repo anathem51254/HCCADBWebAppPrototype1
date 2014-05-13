@@ -2,21 +2,19 @@
 @using HCCADBWebAppPrototype1.Extensions
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Create Standalone Committee";
 }
 
-<h2>Edit</h2>
-
+<h2>Create Standalone Committee</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>CommitteeModel</h4>
+        <h4>Committee</h4>
         <hr />
         @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.CommitteeModelID)
 
         <div class="form-group">
             @Html.LabelFor(model => model.CommitteeName, new { @class = "control-label col-md-2" })
@@ -36,7 +34,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -45,7 +43,3 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

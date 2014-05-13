@@ -12,7 +12,7 @@ namespace HCCADBWebAppPrototype1.Models
     // active = currently has a consumer rep
     // inactive = committe has finished or consumer rep resigned
     // noendorsement = no consumerreps have been assigned
-    public enum CurrentStatus { Active, InActive };
+    public enum CurrentStatus { Current, Past };
 
     public class CommitteeModel
     {

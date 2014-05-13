@@ -7,6 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
+    <meta name="description" content="HCCA Database Application" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -21,10 +22,14 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Consumer Representatives", "Index", "ConsumerRepModel")</li>
+                    <li>@Html.ActionLink("Consumer Reps", "Index", "ConsumerRepModel")</li>
                     <li>@Html.ActionLink("Committees", "Index", "CommitteeModel")</li>
+                    <li>@Html.ActionLink("Report", "Index", "Report")</li>
                     <li>@Html.ActionLink("Areas Of Interest", "Index", "ConsumerRepAreaOfInterest")</li>
                     <li>@Html.ActionLink("Areas Of Health", "Index", "CommitteeAreaOfHealthModel")</li>
+                    <li>@Html.ActionLink("Committee History", "Index", "ConsumerRepCommitteeHistory")</li>
+                    @*<li>@Html.ActionLink("Manage Health Areas", "Index", "CommitteeModel_CommitteeAreaOfHealthModel")</li>
+                    <li>@Html.ActionLink("Manage Interests", "Index", "ConsumerRepModel_ConsumerRepAreaOfInterest")</li>*@
                 </ul>
                 @*@Html.Partial("_LoginPartial")*@
             </div>

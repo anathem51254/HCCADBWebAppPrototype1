@@ -1,4 +1,5 @@
 ﻿@model HCCADBWebAppPrototype1.Models.ConsumerRepCommitteeHistoryModel
+@using HCCADBWebAppPrototype1.Extensions
 
 @{
     ViewBag.Title = "AddConsumer";
@@ -60,7 +61,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EndorsementType, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EndorsementType)
+                @Html.EnumDropDownListFor(model => model.EndorsementType)
                 @Html.ValidationMessageFor(model => model.EndorsementType)
             </div>
         </div>
@@ -74,7 +75,8 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Details", "Details", "CommitteeModel", new { id = ViewBag.CommitteeModelID }, null) 
+    
 </div>
 
 @section Scripts {

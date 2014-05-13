@@ -1,4 +1,5 @@
 ﻿@model HCCADBWebAppPrototype1.ViewModels.CreateCommitteeViewModel
+@using HCCADBWebAppPrototype1.Extensions
 
     @{
         ViewBag.Title = "Create";
@@ -24,11 +25,11 @@
                 </div>
             </div>
 
-            <h4>Consumer Rep Committee History</h4>
+            <h4>Endorse Consumer Rep Onto Committee</h4>
             <hr />
 
             <div class="form-group">
-                @Html.LabelFor(model => model.NewConsumerRepCommitteeHistoryModel.ConsumerRepModelID, "ConsumerRepModelID", new { @class = "control-label col-md-2" })
+                @Html.Label("Consumer Rep", new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownListFor(model => model.NewConsumerRepCommitteeHistoryModel.ConsumerRepModelID, Model.ConsumerRepsID)
                     @Html.ValidationMessageFor(model => model.NewConsumerRepCommitteeHistoryModel.ConsumerRepModelID)
@@ -62,7 +63,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.NewConsumerRepCommitteeHistoryModel.EndorsementType, new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.NewConsumerRepCommitteeHistoryModel.EndorsementType)
+                    @Html.EnumDropDownListFor(model => model.NewConsumerRepCommitteeHistoryModel.EndorsementType)
                     @Html.ValidationMessageFor(model => model.NewConsumerRepCommitteeHistoryModel.EndorsementType)
                 </div>
             </div>
@@ -71,7 +72,7 @@
             <hr />
 
             <div class="form-group">
-                @Html.LabelFor(model => model.NewCommitteeAreaOfHealthModel.CommitteeAreaOfHealthModelID, "CommitteeAreaOfHealthModelID", new { @class = "control-label col-md-2" })
+                @Html.Label("Committee Area Of Health", new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownListFor(model => model.NewCommitteeAreaOfHealthModel.CommitteeAreaOfHealthModelID, Model.CommitteeAreasOfHealthID)
                     @Html.ValidationMessageFor(model => model.NewCommitteeAreaOfHealthModel.CommitteeAreaOfHealthModelID)

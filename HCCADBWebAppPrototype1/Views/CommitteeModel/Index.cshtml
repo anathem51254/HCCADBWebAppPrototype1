@@ -1,4 +1,5 @@
-﻿@model IEnumerable<HCCADBWebAppPrototype1.Models.CommitteeModel>
+﻿@model HCCADBWebAppPrototype1.ViewModels.CommitteeIndexViewModel
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Index";
@@ -22,11 +23,11 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CommitteeName)
+            @Html.DisplayName("Name")
         </th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.CommitteeModels)
     {
         <tr>
             <td>
@@ -35,10 +36,13 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.CommitteeModelID }) |
                 @Html.ActionLink("Details", "Details", new { id = item.CommitteeModelID }) |
-                @Html.ActionLink("Set InActive", "SetInActive", new { id = item.CommitteeModelID }) |
+                @Html.ActionLink("Set As Past", "SetInActive", new { id = item.CommitteeModelID }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.CommitteeModelID })
             </td>
         </tr>
     }
 
 </table>
+Page @(Model.CommitteeModels.PageCount < Model.CommitteeModels.PageNumber ? 1 : Model.CommitteeModels.PageNumber) of @Model.CommitteeModels.PageCount
+@Html.PagedListPager(Model.CommitteeModels, page => Url.Action("Index", new { page }))
+@Html.ActionLink("Back to Main", "Index", "Home")

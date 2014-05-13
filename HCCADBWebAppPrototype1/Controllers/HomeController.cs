@@ -21,7 +21,7 @@ namespace HCCADBWebAppPrototype1.Controllers
 
         public ActionResult Index(MainViewModel viewModel)
         {
-            int pageSize = 2;
+            int pageSize = 10;
 
             int consumerPageNumber = (viewModel.consumerPage ?? 1);
             int committeePageNumber = (viewModel.committeePage ?? 1);

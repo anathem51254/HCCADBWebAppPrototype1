@@ -39,6 +39,12 @@ namespace HCCADBWebAppPrototype1.Models
         [Display(Name = "Date Trained")] // month - year
         [DataType(DataType.DateTime)]
         public DateTime DateTrained { get; set; }
+        
+        public string FullName
+        {
+            get { return (FirstName + " " + LastName); }
+        }
+
 
         public virtual ICollection<ConsumerRepModel_ConsumerRepAreaOfInterestModel> ConsumerRepModel_ConsumerRepAreasOfInterestModels { get; set; }
 
